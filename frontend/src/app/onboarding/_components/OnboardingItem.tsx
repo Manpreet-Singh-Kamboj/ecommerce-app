@@ -29,7 +29,7 @@ const OnboardingItem = ({ title, description, imgPath }: Props) => {
           borderTopRightRadius: 35,
           justifyContent: "flex-start",
           alignItems: "center",
-          paddingHorizontal: 25,
+          paddingHorizontal: 20,
           paddingTop: 20,
         }}
       >

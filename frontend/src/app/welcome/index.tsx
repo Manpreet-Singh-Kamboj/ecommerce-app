@@ -44,7 +44,7 @@ const index = () => {
               fontSize: 17,
               color: "#75757B",
               fontWeight: "500",
-              paddingBottom: 30,
+              paddingBottom: 80,
             }}
           >
             Already have an account?
