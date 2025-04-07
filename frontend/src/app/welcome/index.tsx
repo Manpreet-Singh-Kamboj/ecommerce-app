@@ -4,15 +4,16 @@ import GridLayout from "./_components/GridLayout";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { router } from "expo-router";
+import { Colors } from "@/constants/colors";
 
 const index = () => {
   return (
-    <SafeAreaView style={{ backgroundColor: "#f8f8f8" }}>
+    <SafeAreaView style={{ backgroundColor: Colors.primaryBG }}>
       <ScrollView
         style={{
           paddingHorizontal: 25,
           paddingVertical: 50,
-          backgroundColor: "#f8f8f8",
+          backgroundColor: Colors.primaryBG,
         }}
         showsVerticalScrollIndicator={false}
       >

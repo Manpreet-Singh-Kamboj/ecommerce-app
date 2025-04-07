@@ -7,6 +7,7 @@ import {
   SharedValue,
 } from "react-native-reanimated";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { Colors } from "@/constants/colors";
 
 type Props = {
   itemsList: any[];
@@ -44,7 +45,10 @@ const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
             style={[
               {
                 height: 5,
-                backgroundColor: currentIndex === index ? "#FCFCFC" : "#FFB21A",
+                backgroundColor:
+                  currentIndex === index
+                    ? Colors.paginationActive
+                    : Colors.paginationInactive,
                 borderRadius: 7.5,
               },
               paginationDotsAnimatedStyle,

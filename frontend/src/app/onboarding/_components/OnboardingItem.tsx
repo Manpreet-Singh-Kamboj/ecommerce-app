@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { Colors } from "@/constants/colors";
 
 type Props = {
   title: string;
@@ -24,7 +25,7 @@ const OnboardingItem = ({ title, description, imgPath }: Props) => {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: "#231F20",
+        backgroundColor: Colors.secondaryBG,
         width,
         height,
       }}

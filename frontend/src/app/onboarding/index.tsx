@@ -15,6 +15,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Button from "@/components/Button";
 import { router } from "expo-router";
+import { Colors } from "@/constants/colors";
 
 const OnboardingPage = () => {
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
@@ -61,7 +62,7 @@ const OnboardingPage = () => {
   return (
     <View
       style={{
-        backgroundColor: "#231F20",
+        backgroundColor: Colors.primaryBG,
         height: "100%",
         width: "100%",
       }}
