@@ -7,7 +7,7 @@ type Props = {};
 const _layout = (props: Props) => {
   return (
     <>
-      <StatusBar translucent />
+      <StatusBar backgroundColor={"transparent"} translucent />
       <Stack screenOptions={{ headerShown: false }} />
     </>
   );

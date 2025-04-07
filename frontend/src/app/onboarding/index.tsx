@@ -62,7 +62,7 @@ const OnboardingPage = () => {
   return (
     <View
       style={{
-        backgroundColor: Colors.primaryBG,
+        backgroundColor: Colors.secondaryBG,
         height: "100%",
         width: "100%",
       }}
