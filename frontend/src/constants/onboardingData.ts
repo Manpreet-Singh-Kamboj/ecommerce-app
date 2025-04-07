@@ -1,20 +1,16 @@
 export const onboardingData = [
   {
-    title: "Seamless Shopping \n Experience",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-    imgPath: require("@assets/images/onboarding-1.png"),
+    title: "WELCOME TO \n KHAREEDO",
+    imgPath: require("@assets/images/onboarding-new-1.png"),
   },
   {
-    title: "Swift and Reliable \n Delivery",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-    imgPath: require("@assets/images/onboarding-2.png"),
+    title: "Let’s Start Journey \n With Khareedo",
+    description: "Smart, Gorgeous & Fashionable Collection Explore Now",
+    imgPath: require("@assets/images/onboarding-new-2.png"),
   },
   {
-    title: "Wishlist: Where Fashion \n Dreams Begin",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt",
-    imgPath: require("@assets/images/onboarding-3.png"),
+    title: "You Have the \n Power To",
+    description: "There Are Many Beautiful And Attractive Plants To Your Room",
+    imgPath: require("@assets/images/onboarding-new-3.png"),
   },
 ];

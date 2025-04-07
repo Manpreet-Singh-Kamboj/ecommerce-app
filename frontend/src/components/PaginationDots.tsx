@@ -21,7 +21,7 @@ const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
     <View
       style={{
         position: "absolute",
-        bottom: insets.bottom + 30,
+        bottom: width > 400 ? insets.bottom + 120 : insets.bottom + 90,
         flexDirection: "row",
         alignSelf: "center",
         gap: 10,
@@ -30,16 +30,12 @@ const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
       {itemsList.map((_, index) => {
         const paginationDotsAnimatedStyle = useAnimatedStyle(() => {
           return {
-            transform: [
-              {
-                scale: interpolate(
-                  scrollX.value,
-                  [(index - 1) * width, index * width, (index + 1) * width],
-                  [0.6, 1, 0.6],
-                  Extrapolation.CLAMP
-                ),
-              },
-            ],
+            width: interpolate(
+              scrollX.value,
+              [(index - 1) * width, index * width, (index + 1) * width],
+              [20, 30, 20],
+              Extrapolation.CLAMP
+            ),
           };
         });
         return (
@@ -47,9 +43,8 @@ const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
             key={index}
             style={[
               {
-                width: 15,
-                height: 15,
-                backgroundColor: currentIndex === index ? "#704F37" : "#E1DCD6",
+                height: 5,
+                backgroundColor: currentIndex === index ? "#FCFCFC" : "#FFB21A",
                 borderRadius: 7.5,
               },
               paginationDotsAnimatedStyle,
