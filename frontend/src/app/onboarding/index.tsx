@@ -1,13 +1,10 @@
 import {
-  FlatList,
   StyleSheet,
-  Text,
   View,
-  ViewabilityConfigCallbackPair,
   ViewabilityConfigCallbackPairs,
   ViewToken,
 } from "react-native";
-import React from "react";
+import React, { useRef } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import OnboardingItem from "./_components/OnboardingItem";
 import { onboardingData } from "@/constants/onboardingData";
@@ -16,16 +13,21 @@ import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
 } from "react-native-reanimated";
+import Button from "@/components/Button";
+import { router } from "expo-router";
+import { Colors } from "@/constants/colors";
 
 const OnboardingPage = () => {
-  const insets = useSafeAreaInsets();
   const [currentIndex, setCurrentIndex] = React.useState<number>(0);
   const scrollX = useSharedValue(0);
+  const flatlistRef =
+    useRef<Animated.FlatList<(typeof onboardingData)[1]>>(null);
   const onScrollHandler = useAnimatedScrollHandler({
     onScroll: (scrollEvent) => {
       scrollX.value = scrollEvent.contentOffset.x;
     },
   });
+  const insets = useSafeAreaInsets();
 
   const viewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs =
     React.useRef([
@@ -45,21 +47,33 @@ const OnboardingPage = () => {
       },
     ]).current;
 
+  const scrollToIndex = () => {
+    if (!flatlistRef.current) return;
+    if (currentIndex + 1 < onboardingData.length) {
+      flatlistRef.current.scrollToIndex({
+        index: currentIndex + 1,
+        animated: true,
+      });
+    } else {
+      router.push("/sign-in");
+    }
+  };
+
   return (
     <View
       style={{
-        backgroundColor: "#f8f8f8",
+        backgroundColor: Colors.secondaryBG,
         height: "100%",
         width: "100%",
-        paddingTop: insets.top,
       }}
     >
       <Animated.FlatList
+        ref={flatlistRef}
         data={onboardingData}
         renderItem={({ item }) => (
           <OnboardingItem
             title={item.title}
-            description={item.description}
+            description={item?.description}
             imgPath={item.imgPath}
           />
         )}
@@ -76,6 +90,26 @@ const OnboardingPage = () => {
         itemsList={onboardingData}
         scrollX={scrollX}
       />
+      <View
+        style={{
+          paddingHorizontal: 15,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Button
+          text="Next"
+          onPress={scrollToIndex}
+          backgroundColor="#FCFCFC"
+          customStyle={{
+            position: "absolute",
+            bottom: insets.bottom + 20,
+            width: "100%",
+            borderRadius: 10,
+          }}
+          textColor="#2B2B2B"
+        />
+      </View>
     </View>
   );
 };

@@ -1,67 +1,83 @@
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ScrollView,
+} from "react-native";
 import React from "react";
-import { Image } from "expo-image";
+import { ImageBackground } from "expo-image";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { Colors } from "@/constants/colors";
 
 type Props = {
   title: string;
-  description: string;
+  description?: string;
   imgPath: string;
 };
 
 const OnboardingItem = ({ title, description, imgPath }: Props) => {
   const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   return (
-    <View style={{ width, height, backgroundColor: "#F8F8F8" }}>
-      <Image
-        source={imgPath}
-        style={{
-          width: "100%",
-          height: "60%",
-        }}
-      />
-      <View
-        style={{
-          height: "40%",
-          backgroundColor: "#FFFFFF",
-          borderTopLeftRadius: 35,
-          borderTopRightRadius: 35,
-          justifyContent: "flex-start",
-          alignItems: "center",
-          paddingHorizontal: 25,
-          paddingTop: 20,
-        }}
-      >
-        <View
+    <SafeAreaView
+      style={{
+        backgroundColor: Colors.secondaryBG,
+        width,
+        height,
+      }}
+    >
+      <ScrollView>
+        <ImageBackground
+          source={imgPath}
           style={{
-            gap: 20,
+            width,
+            height: height - (insets.top + insets.bottom),
           }}
+          contentFit="contain"
         >
-          <Text
+          <View
             style={{
-              fontSize: 28,
-              textAlign: "center",
-              fontWeight: "600",
-              letterSpacing: 0.5,
+              width,
+              height,
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: width > 395 ? 130 : 120,
+              paddingHorizontal: 36,
             }}
           >
-            {title}
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              color: "rgba(0,0,0,0.5)",
-              fontSize: 16,
-              letterSpacing: 0.2,
-            }}
-          >
-            {description}
-          </Text>
-        </View>
-      </View>
-    </View>
+            <Text
+              style={{
+                color: "white",
+                fontSize: width > 400 ? 40 : 33,
+                fontWeight: "bold",
+                textAlign: "center",
+              }}
+            >
+              {title}
+            </Text>
+            <Text
+              style={{
+                color: "#D8D8D8",
+                fontSize: 20,
+                textAlign: "center",
+                marginTop: 10,
+              }}
+            >
+              {description}
+            </Text>
+          </View>
+        </ImageBackground>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 export default OnboardingItem;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {},
+});
