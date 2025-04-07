@@ -1,15 +1,18 @@
 import "react-native-gesture-handler";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Camera,
   DefaultLight,
   FilamentScene,
   FilamentView,
+  Float3,
   Model,
+  RenderCallback,
   useCameraManipulator,
 } from "react-native-filament";
-import { useWindowDimensions } from "react-native";
+import { Platform, useWindowDimensions } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { useSharedValue } from "react-native-worklets-core";
 
 function Scene({ modelUrl }: { modelUrl?: string }) {
   const cameraManipulator = useCameraManipulator({
@@ -18,31 +21,25 @@ function Scene({ modelUrl }: { modelUrl?: string }) {
     orbitSpeed: [0.003, 0.003],
   });
   const { height } = useWindowDimensions();
-  useEffect(() => {
-    let frameId: number;
-    let x = 0;
-    const y = height / 2;
-    cameraManipulator?.grabBegin(x, y, false);
-    const animate = () => {
-      x += 2;
-      cameraManipulator?.grabUpdate(x, y);
-      frameId = requestAnimationFrame(animate);
-    };
-    animate();
-    return () => {
-      cancelAnimationFrame(frameId);
-      cameraManipulator?.grabEnd();
-    };
-  }, [cameraManipulator]);
-
+  const rotation = useSharedValue<Float3>([0, 0, 0]);
+  const renderCallback: RenderCallback = useCallback(() => {
+    "worklet";
+    const newY =
+      rotation.value[1] + (Platform.OS === "ios" ? 0.000008 : 0.000002);
+    rotation.value = [0, newY, 0];
+  }, [rotation]);
   return (
-    <FilamentView style={{ height: (50 / 100) * height }}>
+    <FilamentView
+      style={{ height: (50 / 100) * height }}
+      renderCallback={renderCallback}
+    >
       <Camera cameraManipulator={cameraManipulator} />
       <DefaultLight />
       <Model
         source={{
           uri: "https://sneakers-models.netlify.app/nike_air_force_1.glb",
         }}
+        rotate={rotation}
         transformToUnitCube
       />
     </FilamentView>
