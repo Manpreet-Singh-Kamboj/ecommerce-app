@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import { StatusBar } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
 type Props = {};
 
