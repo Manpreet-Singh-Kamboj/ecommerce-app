@@ -34,7 +34,7 @@ function Scene() {
       <Camera cameraManipulator={cameraManipulator} />
       <DefaultLight />
       <Model
-        source={require("../../../../assets/glb/nike_air.glb")}
+        source={require("@assets/glb/nike_air.glb")}
         rotate={rotation}
         transformToUnitCube
       />
