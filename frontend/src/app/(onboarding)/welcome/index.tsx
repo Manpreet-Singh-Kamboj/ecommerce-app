@@ -1,10 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/Button";
 import { router } from "expo-router";
 import { Colors } from "@/constants/colors";
-import WelcomeScene from "./_components/WelcomeScene";
+import GridLayout from "./_components/GridLayout";
 
 const index = () => {
   return (
@@ -17,7 +17,7 @@ const index = () => {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <WelcomeScene />
+        <GridLayout />
         <View style={{ gap: 20, paddingTop: 50 }}>
           <Text style={[styles.mainText]}>
             The <Text style={[styles.innerText]}>Sneaker App</Text> That {`\n`}
@@ -43,25 +43,34 @@ const index = () => {
             }}
             textColor={Colors.secondaryBG}
           />
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 17,
-              color: Colors.primaryBG,
-              fontWeight: "500",
-              paddingBottom: 80,
-            }}
-          >
-            Already have an account?
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <Text
               style={{
-                color: "#40bced",
-                fontWeight: "600",
+                textAlign: "center",
+                fontSize: 17,
+                color: Colors.primaryBG,
+                fontWeight: "500",
+                paddingBottom: 80,
               }}
             >
-              &nbsp;Sign In
+              Already have an account?
             </Text>
-          </Text>
+            <Pressable
+              onPress={() => {
+                router.navigate("(auth)/sign-in");
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: "#7BDA40",
+                  fontWeight: "600",
+                }}
+              >
+                &nbsp;Sign In
+              </Text>
+            </Pressable>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -78,7 +87,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   innerText: {
-    color: "#40bced",
+    color: "#7BDA40",
     fontWeight: "bold",
   },
 });
