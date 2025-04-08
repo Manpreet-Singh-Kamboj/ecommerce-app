@@ -1,5 +1,4 @@
-import "react-native-gesture-handler";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback } from "react";
 import {
   Camera,
   DefaultLight,
@@ -11,21 +10,20 @@ import {
   useCameraManipulator,
 } from "react-native-filament";
 import { Platform, useWindowDimensions } from "react-native";
-import { useLocalSearchParams } from "expo-router";
 import { useSharedValue } from "react-native-worklets-core";
 
-function Scene({ modelUrl }: { modelUrl?: string }) {
+function Scene() {
   const cameraManipulator = useCameraManipulator({
-    orbitHomePosition: [0, 0, 3],
+    orbitHomePosition: [0, 2, 3],
     targetPosition: [0, 0, 0],
     orbitSpeed: [0.003, 0.003],
   });
   const { height } = useWindowDimensions();
   const rotation = useSharedValue<Float3>([0, 0, 0]);
+  const rotationValue = Platform.OS === "ios" ? 0.000005 : 0.000002;
   const renderCallback: RenderCallback = useCallback(() => {
     "worklet";
-    const newY =
-      rotation.value[1] + (Platform.OS === "ios" ? 0.000008 : 0.000002);
+    const newY = (rotation.value[1] + rotationValue) % (2 * Math.PI);
     rotation.value = [0, newY, 0];
   }, [rotation]);
   return (
@@ -36,9 +34,7 @@ function Scene({ modelUrl }: { modelUrl?: string }) {
       <Camera cameraManipulator={cameraManipulator} />
       <DefaultLight />
       <Model
-        source={{
-          uri: "https://sneakers-models.netlify.app/nike_air_force_1.glb",
-        }}
+        source={require("../../../../assets/glb/nike_air.glb")}
         rotate={rotation}
         transformToUnitCube
       />
@@ -47,11 +43,9 @@ function Scene({ modelUrl }: { modelUrl?: string }) {
 }
 
 export default function WelcomeScene() {
-  const { modelUrl } = useLocalSearchParams<{ modelUrl: string }>();
-
   return (
     <FilamentScene>
-      <Scene modelUrl={modelUrl} />
+      <Scene />
     </FilamentScene>
   );
 }
