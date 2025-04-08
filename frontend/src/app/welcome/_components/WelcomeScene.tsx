@@ -1,16 +1,13 @@
-import React, { useCallback } from "react";
+import React, { useEffect } from "react";
 import {
   Camera,
   DefaultLight,
   FilamentScene,
   FilamentView,
-  Float3,
   Model,
-  RenderCallback,
   useCameraManipulator,
 } from "react-native-filament";
-import { Platform, useWindowDimensions } from "react-native";
-import { useSharedValue } from "react-native-worklets-core";
+import { useWindowDimensions } from "react-native";
 
 function Scene() {
   const cameraManipulator = useCameraManipulator({
@@ -19,25 +16,28 @@ function Scene() {
     orbitSpeed: [0.003, 0.003],
   });
   const { height } = useWindowDimensions();
-  const rotation = useSharedValue<Float3>([0, 0, 0]);
-  const rotationValue = Platform.OS === "ios" ? 0.000005 : 0.000002;
-  const renderCallback: RenderCallback = useCallback(() => {
-    "worklet";
-    const newY = (rotation.value[1] + rotationValue) % (2 * Math.PI);
-    rotation.value = [0, newY, 0];
-  }, [rotation]);
+
+  useEffect(() => {
+    let frameId: number;
+    let x = 0;
+    const y = height / 2;
+    cameraManipulator?.grabBegin(x, y, false);
+    const animate = () => {
+      x++;
+      cameraManipulator?.grabUpdate(x, y);
+      frameId = requestAnimationFrame(animate);
+    };
+    animate();
+    return () => {
+      cancelAnimationFrame(frameId);
+      cameraManipulator?.grabEnd();
+    };
+  }, [cameraManipulator]);
   return (
-    <FilamentView
-      style={{ height: (50 / 100) * height }}
-      renderCallback={renderCallback}
-    >
+    <FilamentView style={{ height: (50 / 100) * height }}>
       <Camera cameraManipulator={cameraManipulator} />
       <DefaultLight />
-      <Model
-        source={require("@assets/glb/nike_air.glb")}
-        rotate={rotation}
-        transformToUnitCube
-      />
+      <Model source={require("@assets/glb/nike_air.glb")} transformToUnitCube />
     </FilamentView>
   );
 }
