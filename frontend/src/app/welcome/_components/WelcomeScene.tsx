@@ -9,7 +9,7 @@ import {
   RenderCallback,
   useCameraManipulator,
 } from "react-native-filament";
-import { useWindowDimensions } from "react-native";
+import { Platform, useWindowDimensions } from "react-native";
 import { useSharedValue } from "react-native-worklets-core";
 
 function Scene() {
@@ -20,9 +20,10 @@ function Scene() {
   });
   const { height } = useWindowDimensions();
   const rotation = useSharedValue<Float3>([0, 0, 0]);
+  const rotationValue = Platform.OS === "ios" ? 0.000005 : 0.000002;
   const renderCallback: RenderCallback = useCallback(() => {
     "worklet";
-    const newY = rotation.value[1] + 0.000002;
+    const newY = (rotation.value[1] + rotationValue) % (2 * Math.PI);
     rotation.value = [0, newY, 0];
   }, [rotation]);
   return (
