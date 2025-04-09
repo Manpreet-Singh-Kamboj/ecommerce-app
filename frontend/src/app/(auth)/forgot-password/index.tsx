@@ -1,14 +1,13 @@
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { StyleSheet, useWindowDimensions, View } from "react-native";
 import React from "react";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
-import PageHeading from "../_components/PageHeading";
-import PageDescription from "../_components/PageDescription";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Colors } from "@/constants/colors";
 import FloatingBackButton from "@/components/FloatingBackButton";
-import OTPScreen from "../otp-verify";
 import { router } from "expo-router";
+import PageHeading from "@/components/PageHeading";
+import PageDescription from "@/components/PageDescription";
 
 type Props = {};
 
@@ -40,7 +39,9 @@ const ForgotPassword = ({}: Props) => {
         />
         <Button
           text="Reset Password"
-          onPress={() => {router.navigate("/otp-verify")}}
+          onPress={() => {
+            router.navigate("/otp-verify");
+          }}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,

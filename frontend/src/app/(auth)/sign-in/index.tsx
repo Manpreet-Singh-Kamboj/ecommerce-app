@@ -11,9 +11,9 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import { router } from "expo-router";
-import PageHeading from "../_components/PageHeading";
-import PageDescription from "../_components/PageDescription";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
+import PageHeading from "@/components/PageHeading";
+import PageDescription from "@/components/PageDescription";
 
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
@@ -74,7 +74,9 @@ const SignInPage = () => {
         </View>
         <Button
           text="Sign In"
-          onPress={() => {router.navigate("(root)/location-request")}}
+          onPress={() => {
+            router.navigate("(root)/location-request");
+          }}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,
