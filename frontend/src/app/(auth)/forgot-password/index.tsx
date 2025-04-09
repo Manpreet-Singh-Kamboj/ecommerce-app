@@ -7,6 +7,8 @@ import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Colors } from "@/constants/colors";
 import FloatingBackButton from "@/components/FloatingBackButton";
+import OTPScreen from "../otp-verify";
+import { router } from "expo-router";
 
 type Props = {};
 
@@ -38,7 +40,7 @@ const ForgotPassword = ({}: Props) => {
         />
         <Button
           text="Reset Password"
-          onPress={() => {}}
+          onPress={() => {router.navigate("/otp-verify")}}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,
