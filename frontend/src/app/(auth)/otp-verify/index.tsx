@@ -6,6 +6,8 @@ import { Ionicons } from '@expo/vector-icons'
 import PageHeading from '../_components/PageHeading'
 import FloatingBackButton from '@/components/FloatingBackButton'
 import PageDescription from '../_components/PageDescription'
+import Button from '@/components/Button'
+import { Colors } from '@/constants/colors'
 
 type Props = {}
 
@@ -45,7 +47,6 @@ const OTPScreen = (props: Props) => {
   }
 
   const { width } = useWindowDimensions()
-  const name = "Rahul"
   return (
     <SafeAreaWrapper>
       <View style={[styles.container, ]}>
@@ -72,12 +73,7 @@ const OTPScreen = (props: Props) => {
           </View>
         </View>
 
-        <TouchableOpacity 
-          style={styles.verifyButton}
-          onPress={handleVerify}
-        >
-          <Text style={styles.verifyButtonText}>Verify</Text>
-        </TouchableOpacity>
+       <Button text='Verify' textColor='#fcfcfc' backgroundColor= {Colors.secondaryBG} onPress={handleVerify} />
 
         <View style={styles.resendContainer}>
           <Text style={styles.resendText}>Resend code to</Text>
@@ -157,6 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    marginTop: 15,
   },
   resendText: {
     color: '#666',

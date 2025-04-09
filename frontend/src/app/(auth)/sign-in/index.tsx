@@ -74,7 +74,7 @@ const SignInPage = () => {
         </View>
         <Button
           text="Sign In"
-          onPress={() => {}}
+          onPress={() => {router.navigate("(root)/location-request")}}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,
