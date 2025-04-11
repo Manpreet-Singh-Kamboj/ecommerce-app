@@ -1,5 +1,5 @@
 import { Platform, StyleSheet, useWindowDimensions, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import { Colors } from "@/constants/colors";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -9,6 +9,11 @@ import BagIcon from "@/components/icons/Home/BagIcon";
 import WishlistIcon from "@/components/icons/Home/WishlistIcon";
 import ChatIcon from "@/components/icons/Home/ChatIcon";
 import ProfileIcon from "@/components/icons/Home/ProfileIcon";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from "react-native-reanimated";
 
 type TabBarIconProps = {
   focused: boolean;
@@ -66,21 +71,37 @@ type TabBarItemProps = {
 };
 
 const TabBarItem = ({ focused, routeName }: TabBarItemProps) => {
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    scale.value = withSpring(focused ? 1 : 1.2, {
+      damping: 8,
+      stiffness: 150,
+    });
+  }, [focused]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
   return (
-    <View
-      style={{
-        borderRadius: 50,
-        backgroundColor: focused ? Colors.primaryBG : Colors.secondaryBG,
-        paddingHorizontal: 30,
-        paddingVertical: 30,
-        width: 55,
-        height: 50,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    <Animated.View
+      style={[
+        {
+          borderRadius: 50,
+          backgroundColor: focused ? Colors.primaryBG : Colors.secondaryBG,
+          paddingHorizontal: 30,
+          paddingVertical: 30,
+          width: 55,
+          height: 50,
+          justifyContent: "center",
+          alignItems: "center",
+        },
+        animatedStyle,
+      ]}
     >
       <TabBarIcon focused={focused} routeName={routeName} />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -94,7 +115,11 @@ export default function HomeLayout() {
         tabBarStyle: {
           marginHorizontal: width > 400 ? 30 : 15,
           marginBottom:
-            Platform.OS === "android" ? insets.bottom + 15 : insets.bottom - 10,
+            Platform.OS === "android"
+              ? insets.bottom + 15
+              : width > 400
+              ? insets.bottom - 10
+              : insets.bottom + 10,
           height: 80,
           backgroundColor: Colors.secondaryBG,
           borderRadius: 50,
