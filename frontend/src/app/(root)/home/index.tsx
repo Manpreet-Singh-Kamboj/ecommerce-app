@@ -1,4 +1,13 @@
-import { StyleSheet, TextInput, View, FlatList, Text, Image, TouchableOpacity, useWindowDimensions } from "react-native";
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  FlatList,
+  Text,
+  Image,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../../components/Home/header";
@@ -9,7 +18,7 @@ import { bannerData } from "@/constants/banner-data";
 type Props = {};
 
 const HomeScreen = (props: Props) => {
-  const {width} = useWindowDimensions()
+  const { width } = useWindowDimensions();
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <FlatList
@@ -42,8 +51,8 @@ const HomeScreen = (props: Props) => {
               </View>
 
               <FlatList
-                style={{ paddingTop: 30}}
-                contentContainerStyle={{gap:15}}
+                style={{ paddingTop: 30 }}
+                contentContainerStyle={{ gap: 15 }}
                 data={bannerData}
                 horizontal
                 keyExtractor={(_, index) => index.toString()}
@@ -104,7 +113,9 @@ const HomeScreen = (props: Props) => {
                         position: "absolute",
                         right: -25,
                         // top: -50,
-                        bottom: -30,
+                        bottom: -10,
+                        width: "80%",
+                        height: 180,
                         resizeMode: "cover",
                       }}
                     />
