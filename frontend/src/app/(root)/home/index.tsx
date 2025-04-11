@@ -51,6 +51,11 @@ const HomeScreen = (props: Props) => {
               </View>
 
               <FlatList
+                getItemLayout={(_, index) => ({
+                  length: width - 55,
+                  offset: width * index,
+                  index,
+                })}
                 style={{ paddingTop: 30 }}
                 contentContainerStyle={{ gap: 15 }}
                 data={bannerData}

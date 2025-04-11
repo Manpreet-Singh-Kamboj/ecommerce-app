@@ -1,0 +1,33 @@
+import * as React from "react";
+import Svg, { Path } from "react-native-svg";
+type Props = {
+  focused: boolean;
+  activeColor: string;
+  inActiveColor: string;
+};
+const ProfileIcon = ({ focused, activeColor, inActiveColor }: Props) => (
+  <Svg width={30} height={30} viewBox="0 0 24 24" fill="none">
+    <Path
+      d="M12.12 12.7805C12.05 12.7705 11.96 12.7705 11.88 12.7805C10.12 12.7205 8.72 11.2805 8.72 9.51047C8.72 7.70047 10.18 6.23047 12 6.23047C13.81 6.23047 15.28 7.70047 15.28 9.51047C15.27 11.2805 13.88 12.7205 12.12 12.7805Z"
+      stroke={focused ? activeColor : inActiveColor}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M18.74 19.3796C16.96 21.0096 14.6 21.9996 12 21.9996C9.40001 21.9996 7.04001 21.0096 5.26001 19.3796C5.36001 18.4396 5.96001 17.5196 7.03001 16.7996C9.77001 14.9796 14.25 14.9796 16.97 16.7996C18.04 17.5196 18.64 18.4396 18.74 19.3796Z"
+      stroke={focused ? activeColor : inActiveColor}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <Path
+      d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+      stroke={focused ? activeColor : inActiveColor}
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </Svg>
+);
+export default ProfileIcon;
