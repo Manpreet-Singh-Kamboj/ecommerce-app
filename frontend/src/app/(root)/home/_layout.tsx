@@ -1,8 +1,7 @@
-import { Platform, StyleSheet, useWindowDimensions, View } from "react-native";
+import { useWindowDimensions } from "react-native";
 import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import { Colors } from "@/constants/colors";
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomeIcon from "@/components/icons/Home/HomeIcon";
 import BagIcon from "@/components/icons/Home/BagIcon";
@@ -115,11 +114,7 @@ export default function HomeLayout() {
         tabBarStyle: {
           marginHorizontal: width > 400 ? 30 : 15,
           marginBottom:
-            Platform.OS === "android"
-              ? insets.bottom + 15
-              : width > 400
-              ? insets.bottom - 10
-              : insets.bottom + 10,
+            insets.bottom > 0 ? insets.bottom - 10 : insets.bottom + 15,
           height: 80,
           backgroundColor: Colors.secondaryBG,
           borderRadius: 50,
