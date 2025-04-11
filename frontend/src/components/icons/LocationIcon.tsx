@@ -2,8 +2,8 @@ import * as React from "react";
 import Svg, { Rect, Defs, Pattern, Use, Image, SvgProps } from "react-native-svg";
 const LocationIcon = (props: SvgProps) => (
   <Svg
-    width={68}
-    height={68}
+    width={props.width ?? 68}
+    height={props.height ?? 68}
     viewBox="0 0 68 68"
     fill="none"
     {...props}
