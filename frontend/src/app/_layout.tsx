@@ -9,9 +9,7 @@ const _layout = (props: Props) => {
   return (
     <>
       <StatusBar backgroundColor={"transparent"} translucent />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(root)/home/index" options={{headerShown: true, header: () => <Header></Header>}}/>
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }} />
     </>
   );
 };
