@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import Header from "./(root)/home/_components/header";
+import Header from "../components/Home/header";
 
 type Props = {};
 
