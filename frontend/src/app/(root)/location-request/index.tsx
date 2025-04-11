@@ -6,6 +6,7 @@ import { Colors } from "@/constants/colors";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import Button from "@/components/Button";
+import { router } from "expo-router";
 
 const LocationRequest = () => {
   const { width } = useWindowDimensions();
@@ -38,7 +39,7 @@ const LocationRequest = () => {
         <View style={{ width, gap: 20 }}>
           <Button
             text="Allow Location Access"
-            onPress={() => {}}
+            onPress={() => router.navigate("home")}
             customStyle={{
               marginHorizontal: 25,
               borderRadius: 25,
