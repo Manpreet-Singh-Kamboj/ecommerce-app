@@ -1,5 +1,11 @@
-import { StyleSheet, useWindowDimensions, View } from "react-native";
-import React from "react";
+import {
+  Alert,
+  Linking,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import React, { useContext } from "react";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import LocationIcon from "@/components/icons/LocationIcon";
 import { Colors } from "@/constants/colors";
@@ -7,9 +13,39 @@ import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import Button from "@/components/Button";
 import { router } from "expo-router";
+import * as Location from "expo-location";
+import { LocationContext } from "@/context/LocationContext";
 
 const LocationRequest = () => {
   const { width } = useWindowDimensions();
+  const { setLocation } = useContext(LocationContext);
+  const getLocationAccess = async () => {
+    const { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Location Access Denied",
+        "To enhance your shopping experience, we need access to your location for personalized recommendations and faster checkout. Please enable location access in your device settings.",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "Open Settings",
+            onPress: () => Linking.openSettings(),
+          },
+        ]
+      );
+      return;
+    }
+    try {
+      const location = await Location.getCurrentPositionAsync();
+      setLocation(location.coords);
+      router.navigate("home");
+    } catch (error) {
+      Alert.alert("Error", "Failed to retrieve location. Please try again.");
+    }
+  };
   return (
     <SafeAreaWrapper>
       <View
@@ -39,7 +75,7 @@ const LocationRequest = () => {
         <View style={{ width, gap: 20 }}>
           <Button
             text="Allow Location Access"
-            onPress={() => router.navigate("home")}
+            onPress={getLocationAccess}
             customStyle={{
               marginHorizontal: 25,
               borderRadius: 25,
@@ -49,7 +85,9 @@ const LocationRequest = () => {
           />
           <Button
             text="Enter Location Manually"
-            onPress={() => {}}
+            onPress={() => {
+              router.navigate("manual-location-request");
+            }}
             customStyle={{
               marginHorizontal: 25,
               borderRadius: 25,

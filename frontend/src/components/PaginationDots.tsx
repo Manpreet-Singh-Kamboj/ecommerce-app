@@ -1,4 +1,10 @@
-import { StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+  ViewStyle,
+} from "react-native";
 import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
@@ -13,20 +19,31 @@ type Props = {
   itemsList: any[];
   currentIndex: number;
   scrollX: SharedValue<number>;
+  containerStyle?: ViewStyle;
+  inactiveDotColor?: string;
+  activeDotColor?: string;
 };
 
-const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
+const PaginationDots = ({
+  itemsList,
+  currentIndex,
+  scrollX,
+  containerStyle,
+  activeDotColor = Colors.paginationActive,
+  inactiveDotColor = Colors.paginationInactive,
+}: Props) => {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   return (
     <View
-      style={{
-        position: "absolute",
-        bottom: width > 400 ? insets.bottom + 120 : insets.bottom + 90,
-        flexDirection: "row",
-        alignSelf: "center",
-        gap: 10,
-      }}
+      style={[
+        {
+          flexDirection: "row",
+          alignSelf: "center",
+          gap: 10,
+        },
+        containerStyle,
+      ]}
     >
       {itemsList.map((_, index) => {
         const paginationDotsAnimatedStyle = useAnimatedStyle(() => {
@@ -46,9 +63,7 @@ const PaginationDots = ({ itemsList, currentIndex, scrollX }: Props) => {
               {
                 height: 5,
                 backgroundColor:
-                  currentIndex === index
-                    ? Colors.paginationActive
-                    : Colors.paginationInactive,
+                  currentIndex === index ? activeDotColor : inactiveDotColor,
                 borderRadius: 7.5,
               },
               paginationDotsAnimatedStyle,

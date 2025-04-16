@@ -7,4 +7,5 @@ export const Colors = {
   textPrimary: "#231F20",
   textMuted: "#707B81",
   inputBG: "#F7F7F9",
+  homeInactivePagination: "#C4C4C4",
 };
