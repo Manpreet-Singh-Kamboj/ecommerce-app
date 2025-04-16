@@ -1,5 +1,6 @@
 import {
   StyleSheet,
+  useWindowDimensions,
   View,
   ViewabilityConfigCallbackPairs,
   ViewToken,
@@ -12,6 +13,8 @@ import PaginationDots from "@/components/PaginationDots";
 import Animated, {
   useSharedValue,
   useAnimatedScrollHandler,
+  interpolate,
+  Extrapolation,
 } from "react-native-reanimated";
 import Button from "@/components/Button";
 import { router } from "expo-router";
@@ -28,6 +31,7 @@ const OnboardingPage = () => {
     },
   });
   const insets = useSafeAreaInsets();
+  const { width } = useWindowDimensions();
 
   const viewabilityConfigCallbackPairs: ViewabilityConfigCallbackPairs =
     React.useRef([
@@ -40,7 +44,7 @@ const OnboardingPage = () => {
         }: {
           viewableItems: ViewToken[];
         }) => {
-          if (viewableItems[0].index !== null) {
+          if (viewableItems.length > 0 && viewableItems[0].index !== null) {
             setCurrentIndex(viewableItems[0].index);
           }
         },
@@ -89,6 +93,10 @@ const OnboardingPage = () => {
         currentIndex={currentIndex}
         itemsList={onboardingData}
         scrollX={scrollX}
+        containerStyle={{
+          position: "absolute",
+          bottom: width > 400 ? insets.bottom + 120 : insets.bottom + 90,
+        }}
       />
       <View
         style={{
