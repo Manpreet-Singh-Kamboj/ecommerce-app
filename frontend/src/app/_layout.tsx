@@ -1,7 +1,7 @@
 import React from "react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import Header from "../components/Home/header";
+import { LocationProvider } from "@/context/LocationContext";
 
 type Props = {};
 
@@ -9,7 +9,9 @@ const _layout = (props: Props) => {
   return (
     <>
       <StatusBar backgroundColor={"transparent"} translucent />
-      <Stack screenOptions={{ headerShown: false }} />
+      <LocationProvider>
+        <Stack screenOptions={{ headerShown: false }} />
+      </LocationProvider>
     </>
   );
 };

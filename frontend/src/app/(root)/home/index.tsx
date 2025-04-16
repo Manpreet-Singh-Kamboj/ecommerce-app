@@ -40,7 +40,7 @@ const HomeScreen = () => {
   );
 
   const viewConfigRef = React.useRef({
-    viewAreaCoveragePercentThreshold: 80,
+    viewAreaCoveragePercentThreshold: 60,
   });
 
   return (

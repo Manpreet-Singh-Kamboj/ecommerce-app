@@ -49,7 +49,9 @@ const LocationRequest = () => {
           />
           <Button
             text="Enter Location Manually"
-            onPress={() => {}}
+            onPress={() => {
+              router.navigate("manual-location-request");
+            }}
             customStyle={{
               marginHorizontal: 25,
               borderRadius: 25,
