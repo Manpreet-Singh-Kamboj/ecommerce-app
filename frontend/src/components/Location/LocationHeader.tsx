@@ -53,15 +53,25 @@ export default function LocationHeader() {
     setQuery(place.display_name);
   };
   return (
-    <View style={{ flexDirection: "row", gap: 10 }}>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
+      }}
+    >
       <Pressable
         style={{
           backgroundColor: Colors.inputBG,
           padding: 10,
           borderRadius: 30,
           borderWidth: 0.2,
+          width: 45,
+          height: 45,
           maxWidth: 45,
           maxHeight: 45,
+          marginTop: 2.5,
           justifyContent: "center",
           alignItems: "center",
         }}

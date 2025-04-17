@@ -65,12 +65,31 @@ export default function ManualLocationRequestScreen() {
             latitudeDelta: 0.0421,
             longitudeDelta: 0.0422,
           }}
+          showsUserLocation
+          onPoiClick={(poi) => {
+            setLocation(
+              poi.nativeEvent.coordinate as Location.LocationObjectCoords
+            );
+          }}
+          onPress={(mapPressEvent) =>
+            setLocation(
+              mapPressEvent.nativeEvent
+                .coordinate as Location.LocationObjectCoords
+            )
+          }
         >
           <Marker
             coordinate={{
               latitude: location.latitude,
               longitude: location.longitude,
             }}
+            draggable
+            onDragEnd={(markerDragEvent) =>
+              setLocation(
+                markerDragEvent.nativeEvent
+                  .coordinate as Location.LocationObjectCoords
+              )
+            }
           />
         </MapView>
       </View>
@@ -89,6 +108,8 @@ const styles = StyleSheet.create({
     width: "100%",
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
   },
   map: {
     width: "100%",
