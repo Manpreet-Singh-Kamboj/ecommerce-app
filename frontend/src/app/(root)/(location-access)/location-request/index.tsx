@@ -15,6 +15,7 @@ import Button from "@/components/Button";
 import { router } from "expo-router";
 import * as Location from "expo-location";
 import { LocationContext } from "@/context/LocationContext";
+import FloatingBackButton from "@/components/FloatingBackButton";
 
 const LocationRequest = () => {
   const { width } = useWindowDimensions();
@@ -48,6 +49,7 @@ const LocationRequest = () => {
   };
   return (
     <SafeAreaWrapper>
+      <FloatingBackButton />
       <View
         style={{
           width,
