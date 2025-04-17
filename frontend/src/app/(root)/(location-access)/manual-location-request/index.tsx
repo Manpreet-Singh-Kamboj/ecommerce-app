@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import MapView, { Marker } from "react-native-maps";
 import { Alert, Linking, StyleSheet, View } from "react-native";
 import * as Location from "expo-location";
@@ -9,6 +9,7 @@ import { LinearGradient } from "expo-linear-gradient";
 
 export default function ManualLocationRequestScreen() {
   const { location, setLocation } = useContext(LocationContext);
+  const mapRef = React.useRef<MapView>(null);
 
   const getCurrentLocation = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -38,6 +39,19 @@ export default function ManualLocationRequestScreen() {
   };
 
   useEffect(() => {
+    if (!location || !mapRef.current) return;
+    mapRef.current.animateToRegion(
+      {
+        latitude: location.latitude,
+        longitude: location.longitude,
+        latitudeDelta: 0.003,
+        longitudeDelta: 0.003,
+      },
+      500
+    );
+  }, [location]);
+
+  useEffect(() => {
     getCurrentLocation();
   }, []);
 
@@ -58,12 +72,13 @@ export default function ManualLocationRequestScreen() {
           <LocationHeader />
         </LinearGradient>
         <MapView
+          ref={mapRef}
           style={styles.map}
-          region={{
+          initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,
-            latitudeDelta: 0.0421,
-            longitudeDelta: 0.0422,
+            latitudeDelta: 0.003,
+            longitudeDelta: 0.003,
           }}
           showsUserLocation
           onPoiClick={(poi) => {
