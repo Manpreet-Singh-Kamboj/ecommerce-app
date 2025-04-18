@@ -4,7 +4,6 @@ import {
   Alert,
   Linking,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -18,6 +17,8 @@ import { Colors } from "@/constants/colors";
 import FloatingBackButton from "@/components/FloatingBackButton";
 import LocationIcon from "@/components/icons/LocationIcon";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
+import { Entypo } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 export default function ManualLocationRequestScreen() {
   const { location, setLocation } = useContext(LocationContext);
@@ -133,6 +134,38 @@ export default function ManualLocationRequestScreen() {
             }
           />
         </MapView>
+        <Pressable
+          onPress={() => {
+            if (location) {
+              router.navigate("/home");
+            }
+          }}
+          style={{
+            position: "absolute",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
+            bottom: insets.bottom === 0 ? 20 : insets.bottom + 15,
+            right: 16,
+            backgroundColor: Colors.secondaryBG,
+            paddingVertical: 12,
+            paddingHorizontal: 20,
+            borderRadius: 32,
+          }}
+        >
+          <Text
+            style={{
+              color: Colors.primaryBG,
+              fontWeight: "600",
+              fontSize: 18,
+              marginRight: 4,
+            }}
+          >
+            Continue
+          </Text>
+          <Entypo name="chevron-right" size={24} color={Colors.primaryBG} />
+        </Pressable>
       </View>
     )
   );
