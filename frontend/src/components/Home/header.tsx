@@ -1,20 +1,50 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LocationIcon from "@/components/icons/LocationIcon";
 import Entypo from "@expo/vector-icons/Entypo";
 import { Colors } from "@/constants/colors";
 import NotificationIcon from "@/components/icons/NotificationIcon";
+import * as Location from "expo-location";
+import { LocationContext } from "@/context/LocationContext";
 
-type Props = {};
+const Header = () => {
+  const [currLocation, setCurrentLocation] = useState({
+    city: "",
+    country: "",
+    address: "",
+  });
+  const { location } = useContext(LocationContext);
+  const getLocationFromLatLng = async () => {
+    try {
+      const currLoc = await Location.reverseGeocodeAsync({
+        latitude: location?.latitude || 0,
+        longitude: location?.longitude || 0,
+      });
+      if (currLoc.length > 0) {
+        const { city, isoCountryCode, name } = currLoc[0];
+        setCurrentLocation({
+          city: city || "",
+          country: isoCountryCode || "",
+          address: name ?? "",
+        });
+      }
+    } catch (error) {}
+  };
 
-const Header = (props: Props) => {
+  useEffect(() => {
+    getLocationFromLatLng();
+  }, []);
   return (
     <View style={[styles.headerContainer]}>
       <View style={{ gap: 3 }}>
-        <Text style={{ marginLeft: 4, color: Colors.textMuted }}>Location</Text>
+        <Text style={{ marginLeft: 4, color: Colors.textMuted }}>
+          {currLocation.address}
+        </Text>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 5 }}>
           <LocationIcon width={25} height={25} />
-          <Text style={{ color: Colors.textMuted }}>New York, US</Text>
+          <Text style={{ color: Colors.textMuted }}>
+            {`${currLocation.city}, ${currLocation.country}`}
+          </Text>
           <Entypo name="chevron-down" size={20} color="black" />
         </View>
       </View>
