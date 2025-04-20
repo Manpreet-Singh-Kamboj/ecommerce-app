@@ -1,16 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View } from "react-native";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 const wishlist = (props: Props) => {
-  return (
-    <View>
-      <Text>wishlist</Text>
-    </View>
-  )
-}
+  return <Text>0</Text>;
+};
 
-export default wishlist
+export default wishlist;
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({});
