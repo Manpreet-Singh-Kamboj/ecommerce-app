@@ -126,6 +126,16 @@ export default function HomeLayout() {
           tabBarIcon: ({ focused }) => (
             <TabBarItem focused={focused} routeName="bag" />
           ),
+          headerShown: true,
+          header: () => (
+            <ScreensHeader
+              leftIcon={<Feather name="chevron-left" size={24} color="black" />}
+              screenName="My Orders"
+              rightIcon={<CartIcon />}
+              onLeftIconPress={() => router.navigate("/home")}
+              onRightIconPress={() => {}}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -154,6 +164,22 @@ export default function HomeLayout() {
           tabBarIcon: ({ focused }) => (
             <TabBarItem focused={focused} routeName="chat" />
           ),
+          headerShown: true,
+          header: () => (
+            <ScreensHeader
+              leftIcon={<Feather name="chevron-left" size={24} color="black" />}
+              screenName="Support"
+              rightIcon={
+                <ChatIcon
+                  focused={true}
+                  activeColor={Colors.secondaryBG}
+                  inActiveColor={Colors.primaryBG}
+                />
+              }
+              onLeftIconPress={() => router.navigate("/home")}
+              onRightIconPress={() => {}}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -162,6 +188,22 @@ export default function HomeLayout() {
           title: "Profile",
           tabBarIcon: ({ focused }) => (
             <TabBarItem focused={focused} routeName="profile" />
+          ),
+          headerShown: true,
+          header: () => (
+            <ScreensHeader
+              leftIcon={<Feather name="chevron-left" size={24} color="black" />}
+              screenName="Profile"
+              rightIcon={
+                <ProfileIcon
+                  focused={true}
+                  activeColor={Colors.secondaryBG}
+                  inActiveColor={Colors.primaryBG}
+                />
+              }
+              onLeftIconPress={() => router.navigate("/home")}
+              onRightIconPress={() => {}}
+            />
           ),
         }}
       />

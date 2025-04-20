@@ -23,9 +23,9 @@ const Header = () => {
       if (currLoc.length > 0) {
         const { city, isoCountryCode, name } = currLoc[0];
         setCurrentLocation({
-          city: city || "",
-          country: isoCountryCode || "",
-          address: name ?? "",
+          city: city ?? "N/A",
+          country: isoCountryCode || "N/A",
+          address: name ?? "N/A",
         });
       }
     } catch (error) {}
