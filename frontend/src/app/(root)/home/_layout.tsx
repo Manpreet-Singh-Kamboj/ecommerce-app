@@ -1,6 +1,6 @@
-import { useWindowDimensions } from "react-native";
-import React, { useEffect } from "react";
-import { Tabs } from "expo-router";
+import { useWindowDimensions, View } from "react-native";
+import React from "react";
+import { router, Tabs } from "expo-router";
 import { Colors } from "@/constants/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomeIcon from "@/components/icons/Home/HomeIcon";
@@ -8,11 +8,9 @@ import BagIcon from "@/components/icons/Home/BagIcon";
 import WishlistIcon from "@/components/icons/Home/WishlistIcon";
 import ChatIcon from "@/components/icons/Home/ChatIcon";
 import ProfileIcon from "@/components/icons/Home/ProfileIcon";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
+import ScreensHeader from "@/components/ScreensHeader";
+import CartIcon from "@/components/icons/Wishlist/CartIcon";
+import Feather from "@expo/vector-icons/Feather";
 
 type TabBarIconProps = {
   focused: boolean;
@@ -70,21 +68,8 @@ type TabBarItemProps = {
 };
 
 const TabBarItem = ({ focused, routeName }: TabBarItemProps) => {
-  const scale = useSharedValue(1);
-
-  useEffect(() => {
-    scale.value = withSpring(focused ? 1 : 1.2, {
-      damping: 8,
-      stiffness: 150,
-    });
-  }, [focused]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
   return (
-    <Animated.View
+    <View
       style={[
         {
           borderRadius: 50,
@@ -96,11 +81,10 @@ const TabBarItem = ({ focused, routeName }: TabBarItemProps) => {
           justifyContent: "center",
           alignItems: "center",
         },
-        animatedStyle,
       ]}
     >
       <TabBarIcon focused={focused} routeName={routeName} />
-    </Animated.View>
+    </View>
   );
 };
 
@@ -150,6 +134,16 @@ export default function HomeLayout() {
           title: "Wishlist",
           tabBarIcon: ({ focused }) => (
             <TabBarItem focused={focused} routeName="wishlist" />
+          ),
+          headerShown: true,
+          header: () => (
+            <ScreensHeader
+              leftIcon={<Feather name="chevron-left" size={24} color="black" />}
+              screenName="Wishlist"
+              rightIcon={<CartIcon />}
+              onLeftIconPress={() => router.navigate("/home")}
+              onRightIconPress={() => {}}
+            />
           ),
         }}
       />
