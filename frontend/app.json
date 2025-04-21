@@ -17,7 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.manpreet3033.frontend",
       "config": {
-        "googleMapsApiKey": "process.env.GOOGLE_MAPS_API_KEY"
+        "googleMapsApiKey": "process.env.GOOGLE_MAPS_IOS_API_KEY"
       }
     },
     "android": {
@@ -25,7 +25,12 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.manpreet3033.frontend"
+      "package": "com.manpreet3033.frontend",
+      "config": {
+        "googleMaps": {
+          "apiKey": "process.env.GOOGLE_MAPS_ANDROID_API_KEY"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
