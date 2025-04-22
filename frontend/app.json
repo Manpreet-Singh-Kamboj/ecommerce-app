@@ -17,7 +17,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.manpreet3033.frontend",
       "config": {
-        "googleMapsApiKey": "process.env.GOOGLE_MAPS_IOS_API_KEY"
+        "googleMapsApiKey": "AIzaSyCRCUqYD3pRIGV6z2XdcDo37GtupF5oEKA"
       }
     },
     "android": {
@@ -28,7 +28,7 @@
       "package": "com.manpreet3033.frontend",
       "config": {
         "googleMaps": {
-          "apiKey": "process.env.GOOGLE_MAPS_ANDROID_API_KEY"
+          "apiKey": "AIzaSyDIz7t2mPimQUiAw2nDFfsIJons0NaHbn0"
         }
       }
     },
