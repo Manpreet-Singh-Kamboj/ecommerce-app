@@ -14,6 +14,7 @@ import { router } from "expo-router";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
+import { StatusBar } from "expo-status-bar";
 
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
@@ -30,6 +31,7 @@ const SignInPage = () => {
   const { width } = useWindowDimensions();
   return (
     <SafeAreaWrapper>
+      <StatusBar style="dark" />
       <PageHeading heading="Hello Again!" />
       <PageDescription
         description={`Fill your details or continue with \n Khareedo App !`}
