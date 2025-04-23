@@ -48,9 +48,9 @@ const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView 
-        style={styles.scrollView} 
+    <SafeAreaView style={styles.container} edges={["top"]}>
+      <ScrollView
+        style={styles.scrollView}
         contentContainerStyle={styles.scrollViewContent}
         showsVerticalScrollIndicator={false}
       >
@@ -59,10 +59,7 @@ const HomeScreen = () => {
           <View style={styles.searchContainer}>
             <View style={styles.searchInputContainer}>
               <AntDesign name="search1" size={24} color="black" />
-              <TextInput
-                placeholder="Search"
-                style={styles.searchInput}
-              />
+              <TextInput placeholder="Search" style={styles.searchInput} />
             </View>
             <FilterIcon />
           </View>
@@ -156,18 +153,17 @@ const HomeScreen = () => {
           </View>
           <Brands />
           <View style={styles.productsGrid}>
-          {productData.map((item, index) => {
-            return (
-              <ProductCard key={index}
-                name={item.name}
-                price={item.price}
-                image={require("@assets/images/Yellow Shoe.png")}
-                onPress={() => {
-                  /* handle navigation */
-                }}
-              />
-            );
-          })}
+            {productData.map((item, index) => {
+              return (
+                <ProductCard
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  image={require("@assets/images/Yellow Shoe.png")}
+                  onPress={() => {}}
+                />
+              );
+            })}
           </View>
         </View>
       </ScrollView>
@@ -180,14 +176,13 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fcfcfc',
+    backgroundColor: "#fcfcfc",
   },
   scrollView: {
     flex: 1,
   },
   scrollViewContent: {
-    paddingBottom: 200, 
-    
+    paddingBottom: 95,
   },
   mainContent: {
     marginTop: 20,
@@ -213,10 +208,9 @@ const styles = StyleSheet.create({
     maxHeight: 50,
   },
   productsGrid: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flexWrap: "wrap",
-    gap: '2%',
-    marginTop: 20,
-    marginBottom: 20, // Add margin at the bottom of the grid
-  }
+    marginTop: 30,
+    marginBottom: 20,
+  },
 });
