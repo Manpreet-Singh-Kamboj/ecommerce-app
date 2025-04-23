@@ -21,6 +21,10 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { Colors } from "@/constants/colors";
+import Brands from "@/components/Home/brands";
+import ProductCard from "@/components/Home/product-card";
+import { productData } from "@/constants/product-data";
+import { red } from "react-native-reanimated/lib/typescript/Colors";
 
 const HomeScreen = () => {
   const { width } = useWindowDimensions();
@@ -44,28 +48,18 @@ const HomeScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ScrollView>
+    <SafeAreaView style={styles.container} edges={["top"]}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
+        showsVerticalScrollIndicator={false}
+      >
         <Header />
-        <View style={{ marginTop: 20, paddingHorizontal: 20 }}>
-          <View style={{ flexDirection: "row", gap: 15 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                gap: 7.5,
-                alignItems: "center",
-                borderWidth: 1,
-                paddingHorizontal: 10,
-                paddingVertical: 3,
-                borderRadius: 50,
-                flex: 1,
-              }}
-            >
+        <View style={styles.mainContent}>
+          <View style={styles.searchContainer}>
+            <View style={styles.searchInputContainer}>
               <AntDesign name="search1" size={24} color="black" />
-              <TextInput
-                placeholder="Search"
-                style={{ flex: 1, paddingVertical: 4, maxHeight: 50 }}
-              />
+              <TextInput placeholder="Search" style={styles.searchInput} />
             </View>
             <FilterIcon />
           </View>
@@ -157,6 +151,20 @@ const HomeScreen = () => {
               inactiveDotColor={Colors.homeInactivePagination}
             />
           </View>
+          <Brands />
+          <View style={styles.productsGrid}>
+            {productData.map((item, index) => {
+              return (
+                <ProductCard
+                  key={index}
+                  name={item.name}
+                  price={item.price}
+                  image={require("@assets/images/Yellow Shoe.png")}
+                  onPress={() => {}}
+                />
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -165,4 +173,44 @@ const HomeScreen = () => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fcfcfc",
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollViewContent: {
+    paddingBottom: 95,
+  },
+  mainContent: {
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  searchContainer: {
+    flexDirection: "row",
+    gap: 15,
+  },
+  searchInputContainer: {
+    flexDirection: "row",
+    gap: 7.5,
+    alignItems: "center",
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    borderRadius: 50,
+    flex: 1,
+  },
+  searchInput: {
+    flex: 1,
+    paddingVertical: 4,
+    maxHeight: 50,
+  },
+  productsGrid: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    marginTop: 30,
+    marginBottom: 20,
+  },
+});

@@ -96,6 +96,7 @@ export default function HomeLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
+          position: "absolute",
           marginHorizontal: width > 400 ? 30 : 15,
           marginBottom:
             insets.bottom > 0 ? insets.bottom - 10 : insets.bottom + 15,
