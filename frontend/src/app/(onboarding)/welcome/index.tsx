@@ -5,10 +5,12 @@ import Button from "@/components/Button";
 import { router } from "expo-router";
 import { Colors } from "@/constants/colors";
 import GridLayout from "./_components/GridLayout";
+import { StatusBar } from "expo-status-bar";
 
 const index = () => {
   return (
     <SafeAreaView style={{ backgroundColor: Colors.secondaryBG }}>
+      <StatusBar style="light" />
       <ScrollView
         style={{
           paddingHorizontal: 25,
