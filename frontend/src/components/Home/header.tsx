@@ -6,6 +6,7 @@ import { Colors } from "@/constants/colors";
 import NotificationIcon from "@/components/icons/NotificationIcon";
 import * as Location from "expo-location";
 import { LocationContext } from "@/context/LocationContext";
+import { router } from "expo-router";
 
 const Header = () => {
   const [currLocation, setCurrentLocation] = useState({
@@ -48,7 +49,11 @@ const Header = () => {
           <Entypo name="chevron-down" size={20} color="black" />
         </View>
       </View>
-      <Pressable onPress={() => {}}>
+      <Pressable
+        onPress={() => {
+          router.push("/notifications");
+        }}
+      >
         <NotificationIcon width={40} height={40} />
       </Pressable>
     </View>
