@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   Image,
@@ -8,12 +7,11 @@ import {
   useWindowDimensions,
   ViewToken,
   ScrollView,
+  Pressable,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../../components/Home/header";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import FilterIcon from "@/components/icons/FilterIcon";
 import { bannerData } from "@/constants/banner-data";
 import PaginationDots from "@/components/PaginationDots";
 import Animated, {
@@ -24,7 +22,10 @@ import { Colors } from "@/constants/colors";
 import Brands from "@/components/Home/brands";
 import ProductCard from "@/components/Home/product-card";
 import { productData } from "@/constants/product-data";
-import { red } from "react-native-reanimated/lib/typescript/Colors";
+import SearchBar from "@/components/SearchBar";
+import FilterIcon from "@/components/icons/FilterIcon";
+import { router } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
 
 const HomeScreen = () => {
   const { width } = useWindowDimensions();
@@ -57,13 +58,17 @@ const HomeScreen = () => {
         <Header />
         <View style={styles.mainContent}>
           <View style={styles.searchContainer}>
-            <View style={styles.searchInputContainer}>
+            <Pressable
+              style={styles.searchInputContainer}
+              onPress={() => router.push("/search")}
+            >
               <AntDesign name="search1" size={24} color="black" />
-              <TextInput placeholder="Search" style={styles.searchInput} />
-            </View>
-            <FilterIcon />
+              <Text style={styles.placeholderText}>Search</Text>
+            </Pressable>
+            <Pressable onPress={() => router.push("/filters")}>
+              <FilterIcon />
+            </Pressable>
           </View>
-
           <View style={{ gap: 20 }}>
             <Animated.FlatList
               onScroll={onScrollHandler}
@@ -198,14 +203,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingVertical: 8,
     borderRadius: 50,
     flex: 1,
   },
-  searchInput: {
+  placeholderText: {
     flex: 1,
-    paddingVertical: 4,
-    maxHeight: 50,
+    color: "#757575",
+    fontSize: 16,
   },
   productsGrid: {
     flexDirection: "row",
