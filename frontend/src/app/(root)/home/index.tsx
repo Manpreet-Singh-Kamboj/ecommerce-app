@@ -8,6 +8,7 @@ import {
   ViewToken,
   ScrollView,
   Pressable,
+  ViewabilityConfigCallbackPairs,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +27,7 @@ import SearchBar from "@/components/SearchBar";
 import FilterIcon from "@/components/icons/FilterIcon";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
+import HorizontalFilter from "@/components/Home/horizontal-filters";
 
 const HomeScreen = () => {
   const { width } = useWindowDimensions();
@@ -36,17 +38,24 @@ const HomeScreen = () => {
       scrollX.value = scrollEvent.contentOffset.x;
     },
   });
-  const onViewRef = React.useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index != null) {
-        setCurrentIndex(viewableItems[0].index);
-      }
-    }
-  );
 
-  const viewConfigRef = React.useRef({
-    viewAreaCoveragePercentThreshold: 60,
-  });
+  const viewabilityConfigCallbackPairs =
+    React.useRef<ViewabilityConfigCallbackPairs>([
+      {
+        viewabilityConfig: {
+          itemVisiblePercentThreshold: 60,
+        },
+        onViewableItemsChanged: ({
+          viewableItems,
+        }: {
+          viewableItems: ViewToken[];
+        }) => {
+          if (viewableItems.length > 0 && viewableItems[0].index != null) {
+            setCurrentIndex(viewableItems[0].index);
+          }
+        },
+      },
+    ]);
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -60,7 +69,10 @@ const HomeScreen = () => {
           <View style={styles.searchContainer}>
             <Pressable
               style={styles.searchInputContainer}
-              onPress={() => router.push("/search")}
+              onPress={() => {
+                console.log("Search bar pressed");
+                router.push("/search");
+              }}
             >
               <AntDesign name="search1" size={24} color="black" />
               <Text style={styles.placeholderText}>Search</Text>
@@ -72,8 +84,9 @@ const HomeScreen = () => {
           <View style={{ gap: 20 }}>
             <Animated.FlatList
               onScroll={onScrollHandler}
-              onViewableItemsChanged={onViewRef.current}
-              viewabilityConfig={viewConfigRef.current}
+              viewabilityConfigCallbackPairs={
+                viewabilityConfigCallbackPairs.current
+              }
               getItemLayout={(_, index) => ({
                 length: width - 55,
                 offset: width * index,
@@ -157,6 +170,7 @@ const HomeScreen = () => {
             />
           </View>
           <Brands />
+          <HorizontalFilter />
           <View style={styles.productsGrid}>
             {productData.map((item, index) => {
               return (
@@ -164,7 +178,7 @@ const HomeScreen = () => {
                   key={index}
                   name={item.name}
                   price={item.price}
-                  image={require("@assets/images/Yellow Shoe.png")}
+                  image={item.image}
                   onPress={() => {}}
                 />
               );
