@@ -8,4 +8,5 @@ export const Colors = {
   textMuted: "#707B81",
   inputBG: "#F7F7F9",
   homeInactivePagination: "#C4C4C4",
+  grayBg: "#E0E0E0",
 };

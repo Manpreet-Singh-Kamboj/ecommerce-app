@@ -1,12 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-  ViewStyle,
-} from "react-native";
+import { StyleSheet, useWindowDimensions, View, ViewStyle } from "react-native";
 import React from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {
   Extrapolation,
   interpolate,
@@ -32,7 +25,6 @@ const PaginationDots = ({
   activeDotColor = Colors.paginationActive,
   inactiveDotColor = Colors.paginationInactive,
 }: Props) => {
-  const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   return (
     <View
