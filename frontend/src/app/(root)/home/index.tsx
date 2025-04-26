@@ -71,7 +71,6 @@ const HomeScreen = () => {
               style={styles.searchInputContainer}
               onPress={() => {
                 console.log("Search bar pressed");
-                router.push("/search");
               }}
             >
               <AntDesign name="search1" size={24} color="black" />

@@ -12,25 +12,6 @@ const RootLayout = () => {
       <LocationProvider>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen
-            name="(root)/search/index"
-            options={{
-              headerShown: true,
-              header: () => (
-                <ScreensHeader
-                  leftIcon={
-                    <Feather name="chevron-left" size={24} color="black" />
-                  }
-                  screenName="Search"
-                  onLeftIconPress={() => {
-                    if (router.canGoBack()) {
-                      router.back();
-                    }
-                  }}
-                />
-              ),
-            }}
-          />
-          <Stack.Screen
             name="(root)/filters/index"
             options={{
               headerShown: true,
