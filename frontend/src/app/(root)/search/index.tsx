@@ -3,13 +3,34 @@ import React from "react";
 import SearchBar from "@/components/SearchBar";
 import { productData } from "@/constants/product-data";
 import ProductCard from "@/components/Home/product-card";
-import index from "@/app/(onboarding)/welcome";
+import { router, Stack } from "expo-router";
+import ScreensHeader from "@/components/ScreensHeader";
+import { Feather } from "@expo/vector-icons";
 
 type Props = {};
 
 export default function SearchScreen(props: Props) {
   return (
     <View style={styles.container}>
+      <Stack.Screen
+            name="(root)/search/index"
+            options={{
+              headerShown: true,
+              header: () => (
+                <ScreensHeader
+                  leftIcon={
+                    <Feather name="chevron-left" size={24} color="black" />
+                  }
+                  screenName="Search"
+                  onLeftIconPress={() => {
+                    if (router.canGoBack()) {
+                      router.back();
+                    }
+                  }}
+                />
+              ),
+            }}
+          />
       <View style={{ height: 45 }}>
         <SearchBar />
       </View>
