@@ -173,6 +173,19 @@ const HomeScreen = () => {
           <HorizontalFilter />
           <View style={styles.productsGrid}>
             {productData.map((item, index) => {
+              // Use different images based on product or index
+              const productImages = [
+                require("@assets/images/Yellow Shoe.png"),
+                require("@assets/images/react-presto.png"),
+                require("@assets/images/Greenshoe.png"),
+                require("@assets/images/airmax-blue.png"),
+                // require("@assets/images/White Shoe.png"),
+                // require("@assets/images/Green Shoe.png"),
+              ];
+              
+              // Use modulo to cycle through images if there are more products than images
+              const imageIndex = index % productImages.length;
+              
               return (
                 <ProductCard
                   key={index}
