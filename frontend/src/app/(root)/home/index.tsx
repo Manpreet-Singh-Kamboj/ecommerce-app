@@ -191,7 +191,7 @@ const HomeScreen = () => {
                   key={index}
                   name={item.name}
                   price={item.price}
-                  image={require("@assets/images/Yellow Shoe.png")}
+                  image={item.image}
                   onPress={() => {}}
                 />
               );
