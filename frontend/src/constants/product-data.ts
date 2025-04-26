@@ -7,7 +7,7 @@ export const productData = [
     {
       "name": "Nike React",
       "price": 18.50,
-      "image": require("@assets/images/Yellow Shoe.png")
+      "image": require("@assets/images/react-presto.png")
     },
     {
       "name": "Adidas UltraBoost",
