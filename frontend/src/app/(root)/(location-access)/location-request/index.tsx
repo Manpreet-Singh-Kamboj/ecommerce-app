@@ -12,14 +12,16 @@ import { Colors } from "@/constants/colors";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import Button from "@/components/Button";
-import { router } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import * as Location from "expo-location";
 import { LocationContext } from "@/context/LocationContext";
 import FloatingBackButton from "@/components/FloatingBackButton";
+import { StackAnimationTypes } from "react-native-screens";
 
 const LocationRequest = () => {
   const { width } = useWindowDimensions();
   const { setLocation } = useContext(LocationContext);
+  const params = useLocalSearchParams<{ animation: StackAnimationTypes }>();
   const getLocationAccess = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -49,6 +51,12 @@ const LocationRequest = () => {
   };
   return (
     <SafeAreaWrapper>
+      <Stack.Screen
+        options={{
+          animation: params.animation || "default",
+          animationDuration: params.animation ? 300 : undefined,
+        }}
+      />
       <FloatingBackButton />
       <View
         style={{
