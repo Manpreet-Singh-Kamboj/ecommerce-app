@@ -37,7 +37,12 @@ const Header = () => {
   }, []);
   return (
     <View style={[styles.headerContainer]}>
-      <View style={{ gap: 3 }}>
+      <Pressable
+        style={{ gap: 3 }}
+        onPress={() =>
+          router.push("/location-request?animation=slide_from_bottom")
+        }
+      >
         <Text style={{ marginLeft: 4, color: Colors.textMuted }}>
           {currLocation.address}
         </Text>
@@ -48,7 +53,7 @@ const Header = () => {
           </Text>
           <Entypo name="chevron-down" size={20} color="black" />
         </View>
-      </View>
+      </Pressable>
       <Pressable
         onPress={() => {
           router.push("/notifications");
