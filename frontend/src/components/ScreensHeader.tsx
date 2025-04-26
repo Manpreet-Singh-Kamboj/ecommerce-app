@@ -24,6 +24,7 @@ export default function ScreensHeader({
     <View
       style={{
         marginTop: insets.top === 0 ? 15 : insets.top + 5,
+        marginBottom: 10,
         flexDirection: "row",
         paddingHorizontal: 20,
         justifyContent: "center",

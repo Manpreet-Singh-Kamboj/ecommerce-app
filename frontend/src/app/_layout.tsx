@@ -10,46 +10,7 @@ const RootLayout = () => {
     <>
       <StatusBar backgroundColor={"transparent"} translucent />
       <LocationProvider>
-        <Stack screenOptions={{ headerShown: false }}>
-          <Stack.Screen
-            name="(root)/filters/index"
-            options={{
-              headerShown: true,
-              header: () => (
-                <ScreensHeader
-                  leftIcon={
-                    <Feather name="chevron-left" size={24} color="black" />
-                  }
-                  screenName="Filter"
-                  onLeftIconPress={() => {
-                    if (router.canGoBack()) {
-                      router.back();
-                    }
-                  }}
-                />
-              ),
-            }}
-          />
-          <Stack.Screen
-            name="(root)/notifications/index"
-            options={{
-              headerShown: true,
-              header: () => (
-                <ScreensHeader
-                  leftIcon={
-                    <Feather name="chevron-left" size={24} color="black" />
-                  }
-                  screenName="Notifications"
-                  onLeftIconPress={() => {
-                    if (router.canGoBack()) {
-                      router.back();
-                    }
-                  }}
-                />
-              ),
-            }}
-          />
-        </Stack>
+        <Stack screenOptions={{ headerShown: false }} />
       </LocationProvider>
     </>
   );

@@ -19,6 +19,7 @@ import LocationIcon from "@/components/icons/LocationIcon";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import { Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
+import MAP_STYLE from "@/constants/map-style.json";
 
 export default function ManualLocationRequestScreen() {
   const { location, setLocation } = useContext(LocationContext);
@@ -102,6 +103,7 @@ export default function ManualLocationRequestScreen() {
           provider={PROVIDER_GOOGLE}
           ref={mapRef}
           style={styles.map}
+          customMapStyle={MAP_STYLE}
           initialRegion={{
             latitude: location.latitude,
             longitude: location.longitude,

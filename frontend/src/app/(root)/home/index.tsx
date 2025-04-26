@@ -70,7 +70,7 @@ const HomeScreen = () => {
             <Pressable
               style={styles.searchInputContainer}
               onPress={() => {
-                console.log("Search bar pressed");
+                router.push("/search");
               }}
             >
               <AntDesign name="search1" size={24} color="black" />
@@ -181,10 +181,10 @@ const HomeScreen = () => {
                 // require("@assets/images/White Shoe.png"),
                 // require("@assets/images/Green Shoe.png"),
               ];
-              
+
               // Use modulo to cycle through images if there are more products than images
               const imageIndex = index % productImages.length;
-              
+
               return (
                 <ProductCard
                   key={index}
