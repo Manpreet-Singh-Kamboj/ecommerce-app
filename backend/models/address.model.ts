@@ -34,10 +34,6 @@ const AddressSchema = new Schema(
       type: String,
       required: [true, "Postal code is required!"],
     },
-    country: {
-      type: String,
-      required: [true, "Country is required!"],
-    },
     lat: {
       type: Number,
       required: [true, "Latitude is required!"],
