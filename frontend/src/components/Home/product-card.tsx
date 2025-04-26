@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
-    transform: [{ scale: 1.2 }],
   },
   infoContainer: {
     padding: 10,

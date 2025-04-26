@@ -5,7 +5,6 @@ export const bannerData = [
     buttonText: "Shop now",
     imageUrl: require("@assets/images/Greenshoe.png"),
     backgroundColor: "#ffffff",
-    
   },
   {
     heading: "20% Discount",
@@ -22,5 +21,3 @@ export const bannerData = [
     backgroundColor: "#ffffff",
   },
 ];
-
-

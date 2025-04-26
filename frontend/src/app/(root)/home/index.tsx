@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  TextInput,
   View,
   Text,
   Image,
@@ -8,12 +7,12 @@ import {
   useWindowDimensions,
   ViewToken,
   ScrollView,
+  Pressable,
+  ViewabilityConfigCallbackPairs,
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Header from "../../../components/Home/header";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import FilterIcon from "@/components/icons/FilterIcon";
 import { bannerData } from "@/constants/banner-data";
 import PaginationDots from "@/components/PaginationDots";
 import Animated, {
@@ -24,7 +23,11 @@ import { Colors } from "@/constants/colors";
 import Brands from "@/components/Home/brands";
 import ProductCard from "@/components/Home/product-card";
 import { productData } from "@/constants/product-data";
-import { red } from "react-native-reanimated/lib/typescript/Colors";
+import SearchBar from "@/components/SearchBar";
+import FilterIcon from "@/components/icons/FilterIcon";
+import { router } from "expo-router";
+import { AntDesign } from "@expo/vector-icons";
+import HorizontalFilter from "@/components/Home/horizontal-filters";
 
 const HomeScreen = () => {
   const { width } = useWindowDimensions();
@@ -35,17 +38,24 @@ const HomeScreen = () => {
       scrollX.value = scrollEvent.contentOffset.x;
     },
   });
-  const onViewRef = React.useRef(
-    ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-      if (viewableItems.length > 0 && viewableItems[0].index != null) {
-        setCurrentIndex(viewableItems[0].index);
-      }
-    }
-  );
 
-  const viewConfigRef = React.useRef({
-    viewAreaCoveragePercentThreshold: 60,
-  });
+  const viewabilityConfigCallbackPairs =
+    React.useRef<ViewabilityConfigCallbackPairs>([
+      {
+        viewabilityConfig: {
+          itemVisiblePercentThreshold: 60,
+        },
+        onViewableItemsChanged: ({
+          viewableItems,
+        }: {
+          viewableItems: ViewToken[];
+        }) => {
+          if (viewableItems.length > 0 && viewableItems[0].index != null) {
+            setCurrentIndex(viewableItems[0].index);
+          }
+        },
+      },
+    ]);
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -57,18 +67,26 @@ const HomeScreen = () => {
         <Header />
         <View style={styles.mainContent}>
           <View style={styles.searchContainer}>
-            <View style={styles.searchInputContainer}>
+            <Pressable
+              style={styles.searchInputContainer}
+              onPress={() => {
+                console.log("Search bar pressed");
+                router.push("/search");
+              }}
+            >
               <AntDesign name="search1" size={24} color="black" />
-              <TextInput placeholder="Search" style={styles.searchInput} />
-            </View>
-            <FilterIcon />
+              <Text style={styles.placeholderText}>Search</Text>
+            </Pressable>
+            <Pressable onPress={() => router.push("/filters")}>
+              <FilterIcon />
+            </Pressable>
           </View>
-
           <View style={{ gap: 20 }}>
             <Animated.FlatList
               onScroll={onScrollHandler}
-              onViewableItemsChanged={onViewRef.current}
-              viewabilityConfig={viewConfigRef.current}
+              viewabilityConfigCallbackPairs={
+                viewabilityConfigCallbackPairs.current
+              }
               getItemLayout={(_, index) => ({
                 length: width - 55,
                 offset: width * index,
@@ -152,6 +170,7 @@ const HomeScreen = () => {
             />
           </View>
           <Brands />
+          <HorizontalFilter />
           <View style={styles.productsGrid}>
             {productData.map((item, index) => {
               // Use different images based on product or index
@@ -172,7 +191,7 @@ const HomeScreen = () => {
                   key={index}
                   name={item.name}
                   price={item.price}
-                  image={productImages[imageIndex]}
+                  image={require("@assets/images/Yellow Shoe.png")}
                   onPress={() => {}}
                 />
               );
@@ -211,14 +230,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderWidth: 1,
     paddingHorizontal: 10,
-    paddingVertical: 3,
+    paddingVertical: 8,
     borderRadius: 50,
     flex: 1,
   },
-  searchInput: {
+  placeholderText: {
     flex: 1,
-    paddingVertical: 4,
-    maxHeight: 50,
+    color: "#757575",
+    fontSize: 16,
   },
   productsGrid: {
     flexDirection: "row",
