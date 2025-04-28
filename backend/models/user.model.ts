@@ -1,4 +1,5 @@
-import { Schema, model, models } from "mongoose";
+import mongoose from "mongoose";
+const { Schema, model, models } = mongoose;
 
 const UserSchema = new Schema(
   {
@@ -35,8 +36,14 @@ const UserSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Wishlist",
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
+
+UserSchema.index({ email: 1 }, { unique: true });
 
 export const User = models.User || model("User", UserSchema);
