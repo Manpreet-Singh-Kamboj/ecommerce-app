@@ -1,6 +1,5 @@
 import nodemailer from "nodemailer";
 import { loadEnv } from "../../utils/dotenv.ts";
-import { otpVerificationMail } from "./templates/otp-verification.ts";
 loadEnv();
 
 if (!process.env.EMAIL || !process.env.EMAIL_PASSWORD)
@@ -17,13 +16,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export const sendEmail = async (email: string, otp: string) => {
+interface SendEmailProps {
+  email: string;
+  title: string;
+  htmlBody: string;
+}
+
+export const sendEmail = async ({ email, title, htmlBody }: SendEmailProps) => {
   if (!process.env.EMAIL) throw new Error("Email not found in.env file");
   const mailOptions = {
     from: process.env.EMAIL,
     to: email,
-    subject: "Verify your OTP - Khareedo",
-    html: otpVerificationMail(otp),
+    subject: title,
+    html: htmlBody,
   };
   try {
     transporter.sendMail(mailOptions, (error, _) => {
