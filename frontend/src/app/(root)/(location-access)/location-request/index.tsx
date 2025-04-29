@@ -54,7 +54,7 @@ const LocationRequest = () => {
       <Stack.Screen
         options={{
           animation: params.animation || "default",
-          animationDuration: params.animation ? 300 : undefined,
+          animationDuration: params.animation ? 250 : undefined,
         }}
       />
       <FloatingBackButton />
