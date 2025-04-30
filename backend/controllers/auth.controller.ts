@@ -4,6 +4,7 @@ import { Cart } from "../models/cart.model.ts";
 import { Otp } from "../models/otp.model.ts";
 import { Wishlist } from "../models/wishlist.model.ts";
 import bcrypt from "bcryptjs";
+import { generateJwtToken } from "../utils/jwt.ts";
 
 export const signUpController = async (
   req: express.Request,
@@ -81,7 +82,7 @@ export const signInController = async (
       return;
     }
     const user = await User.findOne({ email });
-    if(!user) {
+    if (!user) {
       res.status(404).json({ message: "User does not exist" });
       return;
     }
@@ -91,9 +92,36 @@ export const signInController = async (
       return;
     }
     user.password = null;
-    res.status(200).json({ message: "User logged in successfully", user });
-  }
-  catch (error) {
+    if (!process.env.ACCESS_TOKEN_SECRET)
+      throw new Error("ACCESS_TOKEN_SECRET is not defined");
+    if (!process.env.REFRESH_TOKEN_SECRET)
+      throw new Error("REFRESH_TOKEN_SECRET is not defined");
+    const accessTokenPayload = {
+      userId: user._id,
+      email: user.email,
+      role: user.role,
+    };
+    const accessToken = generateJwtToken({
+      jwtPayload: accessTokenPayload,
+      jwtExpiry: "30m",
+      jwtSecret: process.env.ACCESS_TOKEN_SECRET,
+    });
+    const refreshTokenPayload = {
+      userId: user._id,
+    };
+    const refreshToken = generateJwtToken({
+      jwtPayload: refreshTokenPayload,
+      jwtExpiry: "7d",
+      jwtSecret: process.env.REFRESH_TOKEN_SECRET,
+    });
+    res
+      .status(200)
+      .json({
+        message: "User logged in successfully",
+        accessToken,
+        refreshToken,
+      });
+  } catch (error) {
     res.status(500).json({ message: "Something went wrong", error });
   }
-}
+};
