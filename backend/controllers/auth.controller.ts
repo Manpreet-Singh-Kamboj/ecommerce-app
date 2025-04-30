@@ -69,3 +69,31 @@ export const sendOtpController = async (
     res.status(500).json({ message: "Something went wrong", error });
   }
 };
+
+export const signInController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, password } = req.body;
+    if (!email || !password) {
+      res.status(400).json({ message: "Missing required fields" });
+      return;
+    }
+    const user = await User.findOne({ email });
+    if(!user) {
+      res.status(404).json({ message: "User does not exist" });
+      return;
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password!);
+    if (!isPasswordValid) {
+      res.status(400).json({ message: "Invalid password" });
+      return;
+    }
+    user.password = null;
+    res.status(200).json({ message: "User logged in successfully", user });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Something went wrong", error });
+  }
+}

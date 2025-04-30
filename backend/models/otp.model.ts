@@ -19,8 +19,6 @@ const OtpSchema = new Schema({
   },
 });
 
-OtpSchema.index({ email: 1 }, { unique: true });
-
 OtpSchema.pre("save", async function (next) {
   if (this.isNew) {
     const otp = Math.floor(100000 + Math.random() * 900000);
