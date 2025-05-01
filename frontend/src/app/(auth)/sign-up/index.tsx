@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -14,6 +15,11 @@ import { router } from "expo-router";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
+import ErrorToast from "@/components/Toasts/error-toast";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import { setSignupData } from "@/redux/slices/auth.slice";
+import { sendVerificationOtp } from "@/services/auth";
+import useAuth from "@/hooks/useAuth";
 
 const SignUpPage = () => {
   const [formData, setFormData] = React.useState({
@@ -21,6 +27,8 @@ const SignUpPage = () => {
     email: "",
     password: "",
   });
+  const dispatch = useAppDispatch();
+  const { loading } = useAuth();
   const [showPassword, setShowPassword] = React.useState(true);
   const handleChange = (text: string, name: string) => {
     setFormData((prev) => ({
@@ -28,6 +36,24 @@ const SignUpPage = () => {
       [name]: text,
     }));
   };
+
+  const handleSignUp = () => {
+    if (!formData.name || !formData.email || !formData.password) {
+      ErrorToast({
+        message: "Name/Email/Password are required.",
+      });
+      return;
+    }
+    dispatch(
+      setSignupData({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      })
+    );
+    dispatch(sendVerificationOtp({ email: formData.email, router }));
+  };
+
   const { width } = useWindowDimensions();
   return (
     <SafeAreaWrapper>
@@ -37,7 +63,7 @@ const SignUpPage = () => {
       />
       <View style={{ width, gap: 20 }}>
         <Input
-          inputHeading="Your Name"
+          inputHeading="Name"
           value={formData.name}
           placeholder="John Doe"
           name="name"
@@ -68,15 +94,16 @@ const SignUpPage = () => {
           />
         </View>
         <Button
-          text="Sign Up"
-          onPress={() => {}}
+          text={loading ? <ActivityIndicator color={"#fff"} /> : "Sign Up"}
+          disabled={loading}
+          onPress={handleSignUp}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,
             borderRadius: 14,
           }}
           textColor="#fff"
-          backgroundColor={Colors.secondaryBG}
+          backgroundColor={loading ? Colors.disabledButton : Colors.secondaryBG}
         />
         <Button
           text="Sign Up With Google"
