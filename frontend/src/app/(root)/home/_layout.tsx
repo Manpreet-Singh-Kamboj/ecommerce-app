@@ -1,6 +1,6 @@
 import { useWindowDimensions, View } from "react-native";
 import React from "react";
-import { router, Tabs } from "expo-router";
+import { Redirect, router, Tabs } from "expo-router";
 import { Colors } from "@/constants/colors";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import HomeIcon from "@/components/icons/Home/HomeIcon";
@@ -11,6 +11,7 @@ import ProfileIcon from "@/components/icons/Home/ProfileIcon";
 import ScreensHeader from "@/components/ScreensHeader";
 import CartIcon from "@/components/icons/Wishlist/CartIcon";
 import Feather from "@expo/vector-icons/Feather";
+import useAuth from "@/hooks/useAuth";
 
 type TabBarIconProps = {
   focused: boolean;
@@ -91,6 +92,8 @@ const TabBarItem = ({ focused, routeName }: TabBarItemProps) => {
 export default function HomeLayout() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
+  const { token } = useAuth();
+  if (!token) return <Redirect href={"/(onboarding)/welcome"} />;
   return (
     <Tabs
       screenOptions={{

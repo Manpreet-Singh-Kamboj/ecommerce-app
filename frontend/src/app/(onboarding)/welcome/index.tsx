@@ -7,7 +7,7 @@ import { Colors } from "@/constants/colors";
 import GridLayout from "./_components/GridLayout";
 import { StatusBar } from "expo-status-bar";
 
-const index = () => {
+const WelcomeScreen = () => {
   return (
     <SafeAreaView style={{ backgroundColor: Colors.secondaryBG }}>
       <StatusBar style="light" />
@@ -79,7 +79,7 @@ const index = () => {
   );
 };
 
-export default index;
+export default WelcomeScreen;
 
 const styles = StyleSheet.create({
   mainText: {

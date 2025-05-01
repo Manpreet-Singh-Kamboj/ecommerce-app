@@ -34,14 +34,12 @@ const Header = () => {
 
   useEffect(() => {
     getLocationFromLatLng();
-  }, []);
+  }, [location]);
   return (
     <View style={[styles.headerContainer]}>
       <Pressable
         style={{ gap: 3 }}
-        onPress={() =>
-          router.push("/location-request?animation=slide_from_bottom")
-        }
+        onPress={() => router.push("/location-request")}
       >
         <Text style={{ marginLeft: 4, color: Colors.textMuted }}>
           {currLocation.address}

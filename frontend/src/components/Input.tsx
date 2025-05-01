@@ -35,6 +35,7 @@ const Input = ({
         onChangeText={(text: string) => onChange(text, name)}
         secureTextEntry={secureTextEntry}
         style={styles.input}
+        autoCapitalize="none"
       />
       {isPassword ? (
         <Pressable
