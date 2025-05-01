@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  View,
+  useWindowDimensions,
+} from "react-native";
 import React, { useState } from "react";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import FloatingBackButton from "@/components/FloatingBackButton";
@@ -7,13 +13,28 @@ import { Colors } from "@/constants/colors";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import OtpInput from "@/components/OtpInput";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import ErrorToast from "@/components/Toasts/error-toast";
+import { signUp } from "@/services/auth";
+import { router } from "expo-router";
+import useAuth from "@/hooks/useAuth";
 
-type Props = {};
-
-const OTPScreen = (props: Props) => {
+const OTPScreen = () => {
   const [otp, setOtp] = useState("");
+  const dispatch = useAppDispatch();
+  const { signupData, loading } = useAuth();
   const handleChange = (otp: string) => {
     setOtp(otp);
+  };
+  const handleOtpVerifyAndSignup = () => {
+    if (otp.trim().length < 4) {
+      ErrorToast({
+        message: "Please enter a valid 4-digit OTP.",
+      });
+      return;
+    }
+    const { name, email, password } = signupData;
+    dispatch(signUp({ name, email, password, otp, router }));
   };
 
   const { width } = useWindowDimensions();
@@ -28,10 +49,13 @@ const OTPScreen = (props: Props) => {
         <View style={{ width, paddingHorizontal: 25 }}>
           <OtpInput onChange={handleChange} />
           <Button
-            text="Verify"
+            text={loading ? <ActivityIndicator color={"#fff"} /> : "Verify OTP"}
+            disabled={loading}
             textColor="#fcfcfc"
-            backgroundColor={Colors.secondaryBG}
-            onPress={() => {}}
+            backgroundColor={
+              loading ? Colors.disabledButton : Colors.secondaryBG
+            }
+            onPress={handleOtpVerifyAndSignup}
             customStyle={{ borderRadius: 15 }}
           />
           <View style={styles.resendContainer}>

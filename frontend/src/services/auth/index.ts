@@ -11,11 +11,26 @@ import {
 import { router } from "expo-router";
 import axios from "axios";
 import { AppDispatch } from "@/redux/store";
-const { SIGN_IN, SIGN_UP, SEND_OTP } = authEndpoints;
+import SuccessToast from "@/components/Toasts/success-toast";
+import ErrorToast from "@/components/Toasts/error-toast";
+const { SIGN_IN, SIGN_UP, SEND_VERIFICATION_OTP } = authEndpoints;
 
 type SignInProps = {
   email: string;
   password: string;
+  router: typeof router;
+};
+
+type SignUpProps = {
+  name: string;
+  email: string;
+  password: string;
+  otp: string;
+  router: typeof router;
+};
+
+type SendVerificationOtpProps = {
+  email: string;
   router: typeof router;
 };
 
@@ -32,34 +47,97 @@ export function signIn({ email, password, router }: SignInProps) {
         },
       });
       if (!data?.success) {
-        Toast.show({
-          type: "error",
-          text1: data?.message,
-        });
+        ErrorToast({ message: data?.message });
         dispatch(setLoading(false));
         return;
       }
       storeAccessToken(data?.accessToken);
       dispatch(setToken(data?.accessToken));
       storeRefreshToken(data?.refreshToken);
-      Toast.show({
-        type: "success",
-        text1: "Signed in successfully",
-      });
+      SuccessToast({ message: "Signed in successfully" });
       if (router.canDismiss()) {
         router.dismissAll();
       }
       router.replace("(root)/home");
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        Toast.show({
-          type: "error",
-          text1: error.response?.data.message,
+        ErrorToast({ message: error.response?.data.message });
+      } else {
+        ErrorToast({ message: "Something went wrong" });
+      }
+    }
+    dispatch(setLoading(false));
+  };
+}
+
+export function sendVerificationOtp({
+  email,
+  router,
+}: SendVerificationOtpProps) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const { data } = await apiConnector({
+        method: "POST",
+        url: SEND_VERIFICATION_OTP,
+        body: {
+          email,
+        },
+      });
+      if (!data?.success) {
+        ErrorToast({ message: data?.message });
+        dispatch(setLoading(false));
+        return;
+      }
+      SuccessToast({
+        message:
+          "Verification code sent to your email. Please check your inbox/spam.",
+      });
+      router.navigate("(auth)/otp-verify");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ErrorToast({
+          message: error?.response?.data?.message,
         });
       } else {
-        Toast.show({
-          type: "error",
-          text1: "Something went wrong",
+        ErrorToast({
+          message: "Something went wrong.",
+        });
+      }
+    }
+    dispatch(setLoading(false));
+  };
+}
+
+export function signUp({ name, email, password, otp, router }: SignUpProps) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const { data } = await apiConnector({
+        method: "POST",
+        url: SIGN_UP,
+        body: {
+          name,
+          email,
+          password,
+          otp,
+        },
+      });
+      if (!data.success) {
+        ErrorToast({ message: data?.message });
+        dispatch(setLoading(false));
+        return;
+      }
+      SuccessToast({ message: data?.message });
+      router.replace("(auth)/sign-in");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ErrorToast({
+          message: error?.response?.data?.message,
+        });
+      } else {
+        ErrorToast({
+          message: "Something went wrong.",
         });
       }
     }

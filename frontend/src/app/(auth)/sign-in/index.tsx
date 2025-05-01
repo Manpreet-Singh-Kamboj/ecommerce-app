@@ -19,6 +19,7 @@ import { StatusBar } from "expo-status-bar";
 import { signIn } from "@/services/auth";
 import useAppDispatch from "@/hooks/useAppDispatch";
 import useAuth from "@/hooks/useAuth";
+import ErrorToast from "@/components/Toasts/error-toast";
 
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
@@ -37,6 +38,10 @@ const SignInPage = () => {
   const { width } = useWindowDimensions();
 
   const handleSignIn = () => {
+    if (!formData.email || !formData.password) {
+      ErrorToast({ message: "Email or Password cannot be empty." });
+      return;
+    }
     dispatch(
       signIn({ email: formData.email, password: formData.password, router })
     );

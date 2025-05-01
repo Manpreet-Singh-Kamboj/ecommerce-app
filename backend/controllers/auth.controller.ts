@@ -41,9 +41,14 @@ export const signUpController = async (
     await user.save();
     await Otp.findByIdAndDelete(existingOtp._id);
     user.password = null;
-    res.status(201).json({ message: "User created", user });
+    res.status(201).json({
+      success: true,
+      message: "Sign up successful. Please login to continue.",
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error });
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error });
   }
 };
 
@@ -54,20 +59,24 @@ export const sendOtpController = async (
   try {
     const { email } = req.body;
     if (!email) {
-      res.status(400).json({ message: "Missing required fields" });
+      res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
       return;
     }
     const existingUser = await User.exists({ email });
     if (existingUser) {
-      res.status(400).json({ message: "User already exists" });
+      res.status(400).json({ success: false, message: "User already exists" });
       return;
     }
     const existingOtp = await Otp.exists({ email });
     if (existingOtp) await Otp.findByIdAndDelete(existingOtp._id);
     await Otp.create({ email });
-    res.status(200).json({ message: "OTP sent successfully" });
+    res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error });
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error });
   }
 };
 

@@ -20,16 +20,15 @@ const OtpSchema = new Schema({
 });
 
 OtpSchema.pre("save", async function (next) {
-  if (this.isNew) {
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    this.otp = otp.toString();
-    sendEmail({
-      email: this.email,
-      title: "Verify your email - Khareedo",
-      htmlBody: otpVerificationMail(otp.toString()),
-    });
-    next();
-  }
+  if (!this.isNew) return;
+  const otp = Math.floor(1000 + Math.random() * 9000);
+  this.otp = otp.toString();
+  sendEmail({
+    email: this.email,
+    title: "Verify your email - Khareedo",
+    htmlBody: otpVerificationMail(otp.toString()),
+  });
+  next();
 });
 
 export const Otp = models.Otp || model("Otp", OtpSchema);
