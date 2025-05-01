@@ -5,11 +5,12 @@ import { SvgProps } from "react-native-svg";
 
 type Props = {
   backgroundColor?: string;
-  text: string;
+  text: string | React.ReactNode;
   Icon?: React.FC<SvgProps>;
   onPress: () => void;
   textColor?: string;
   customStyle?: ViewStyle;
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
   Icon,
   onPress,
   textColor,
+  disabled = false,
   customStyle,
 }: Props) => {
   return (
@@ -35,6 +37,7 @@ const Button = ({
         customStyle,
       ]}
       onPress={onPress}
+      disabled={disabled}
     >
       {Icon ? <Icon /> : null}
       <Text

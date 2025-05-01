@@ -44,7 +44,10 @@ const LocationRequest = () => {
     try {
       const location = await Location.getCurrentPositionAsync();
       setLocation(location.coords);
-      router.navigate("home");
+      if (router.canDismiss()) {
+        router.dismissAll();
+      }
+      router.replace("home");
     } catch (error) {
       Alert.alert("Error", "Failed to retrieve location. Please try again.");
     }

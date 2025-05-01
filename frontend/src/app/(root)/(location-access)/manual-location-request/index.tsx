@@ -140,7 +140,10 @@ export default function ManualLocationRequestScreen() {
         <Pressable
           onPress={() => {
             if (location) {
-              router.navigate("/home");
+              if (router.canDismiss()) {
+                router.dismissAll();
+              }
+              router.replace("home");
             }
           }}
           style={{

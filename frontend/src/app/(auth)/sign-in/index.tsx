@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   Pressable,
   StyleSheet,
   Text,
@@ -15,12 +16,17 @@ import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import { StatusBar } from "expo-status-bar";
+import { signIn } from "@/services/auth";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import useAuth from "@/hooks/useAuth";
 
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
     email: "",
     password: "",
   });
+  const { loading } = useAuth();
+  const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = React.useState(true);
   const handleChange = (text: string, name: string) => {
     setFormData((prev) => ({
@@ -29,6 +35,13 @@ const SignInPage = () => {
     }));
   };
   const { width } = useWindowDimensions();
+
+  const handleSignIn = () => {
+    dispatch(
+      signIn({ email: formData.email, password: formData.password, router })
+    );
+  };
+
   return (
     <SafeAreaWrapper>
       <StatusBar style="dark" />
@@ -75,17 +88,16 @@ const SignInPage = () => {
           </Pressable>
         </View>
         <Button
-          text="Sign In"
-          onPress={() => {
-            router.navigate("(root)/location-request");
-          }}
+          text={loading ? <ActivityIndicator color="#fff" /> : "Sign In"}
+          onPress={handleSignIn}
+          disabled={loading}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,
             borderRadius: 14,
           }}
           textColor="#fff"
-          backgroundColor={Colors.secondaryBG}
+          backgroundColor={loading ? Colors.disabledButton : Colors.secondaryBG}
         />
         <Button
           text="Sign In With Google"

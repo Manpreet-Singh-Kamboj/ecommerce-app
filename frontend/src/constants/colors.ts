@@ -9,4 +9,5 @@ export const Colors = {
   inputBG: "#F7F7F9",
   homeInactivePagination: "#C4C4C4",
   grayBg: "#E0E0E0",
+  disabledButton: "#979797",
 };

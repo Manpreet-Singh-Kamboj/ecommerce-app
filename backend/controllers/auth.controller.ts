@@ -114,14 +114,15 @@ export const signInController = async (
       jwtExpiry: "7d",
       jwtSecret: process.env.REFRESH_TOKEN_SECRET,
     });
-    res
-      .status(200)
-      .json({
-        message: "User logged in successfully",
-        accessToken,
-        refreshToken,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Logged in successfully",
+      accessToken,
+      refreshToken,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Something went wrong", error });
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error });
   }
 };
