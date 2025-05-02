@@ -51,7 +51,9 @@ const SignUpPage = () => {
         password: formData.password,
       })
     );
-    dispatch(sendVerificationOtp({ email: formData.email, router }));
+    dispatch(
+      sendVerificationOtp({ email: formData.email, type: "sign_up", router })
+    );
   };
 
   const { width } = useWindowDimensions();

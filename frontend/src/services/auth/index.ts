@@ -1,4 +1,8 @@
-import { setLoading, setToken } from "@/redux/slices/auth.slice";
+import {
+  setForgotPasswordData,
+  setLoading,
+  setToken,
+} from "@/redux/slices/auth.slice";
 import { apiConnector } from "../api-connector";
 import { authEndpoints } from "../apis";
 import Toast from "react-native-toast-message";
@@ -13,7 +17,13 @@ import axios from "axios";
 import { AppDispatch } from "@/redux/store";
 import SuccessToast from "@/components/Toasts/success-toast";
 import ErrorToast from "@/components/Toasts/error-toast";
-const { SIGN_IN, SIGN_UP, SEND_VERIFICATION_OTP } = authEndpoints;
+const {
+  SIGN_IN,
+  SIGN_UP,
+  SEND_VERIFICATION_OTP,
+  FORGOT_PASSWORD,
+  FORGOT_PASSWORD_OTP_VERIFY,
+} = authEndpoints;
 
 type SignInProps = {
   email: string;
@@ -31,6 +41,20 @@ type SignUpProps = {
 
 type SendVerificationOtpProps = {
   email: string;
+  type: "forgot_password" | "sign_up";
+  router: typeof router;
+};
+
+type ForgotPasswordProps = {
+  email: string;
+  password: string;
+  token: string;
+  router: typeof router;
+};
+
+type VerifyForgotPasswordOtpProps = {
+  email: string;
+  otp: string;
   router: typeof router;
 };
 
@@ -61,7 +85,7 @@ export function signIn({ email, password, router }: SignInProps) {
       router.replace("(root)/home");
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
-        ErrorToast({ message: error.response?.data.message });
+        ErrorToast({ message: error.response?.data?.message || error.message });
       } else {
         ErrorToast({ message: "Something went wrong" });
       }
@@ -72,6 +96,7 @@ export function signIn({ email, password, router }: SignInProps) {
 
 export function sendVerificationOtp({
   email,
+  type,
   router,
 }: SendVerificationOtpProps) {
   return async (dispatch: AppDispatch) => {
@@ -82,6 +107,7 @@ export function sendVerificationOtp({
         url: SEND_VERIFICATION_OTP,
         body: {
           email,
+          type,
         },
       });
       if (!data?.success) {
@@ -93,11 +119,55 @@ export function sendVerificationOtp({
         message:
           "Verification code sent to your email. Please check your inbox/spam.",
       });
-      router.navigate("(auth)/otp-verify");
+      router.navigate(`(auth)/otp-verify?type=${type}`);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         ErrorToast({
-          message: error?.response?.data?.message,
+          message: error?.response?.data?.message || error.message,
+        });
+      } else {
+        ErrorToast({
+          message: "Something went wrong.",
+        });
+      }
+    }
+    dispatch(setLoading(false));
+  };
+}
+
+export function verifyForgotPasswordOtp({
+  email,
+  otp,
+  router,
+}: VerifyForgotPasswordOtpProps) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const { data } = await apiConnector({
+        method: "POST",
+        url: FORGOT_PASSWORD_OTP_VERIFY,
+        body: {
+          email,
+          otp,
+        },
+      });
+      if (!data.success) {
+        ErrorToast({ message: data?.message });
+        dispatch(setLoading(false));
+        return;
+      }
+      dispatch(
+        setForgotPasswordData({
+          email,
+          token: data?.token,
+        })
+      );
+      SuccessToast({ message: data?.message });
+      router.replace("(auth)/change-password");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ErrorToast({
+          message: error?.response?.data?.message || error.message,
         });
       } else {
         ErrorToast({
@@ -129,11 +199,14 @@ export function signUp({ name, email, password, otp, router }: SignUpProps) {
         return;
       }
       SuccessToast({ message: data?.message });
-      router.replace("(auth)/sign-in");
+      if (router.canDismiss()) {
+        router.dismiss();
+        router.replace("(auth)/sign-in");
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         ErrorToast({
-          message: error?.response?.data?.message,
+          message: error?.response?.data?.message || error.message,
         });
       } else {
         ErrorToast({
@@ -162,6 +235,46 @@ export function logout() {
         type: "error",
         text1: "Something went wrong",
       });
+    }
+    dispatch(setLoading(false));
+  };
+}
+
+export function forgotPassword({
+  email,
+  password,
+  token,
+  router,
+}: ForgotPasswordProps) {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setLoading(true));
+    try {
+      const { data } = await apiConnector({
+        method: "POST",
+        url: FORGOT_PASSWORD,
+        body: {
+          email,
+          newPassword: password,
+          token,
+        },
+      });
+      if (!data.success) {
+        ErrorToast({ message: data?.message });
+        dispatch(setLoading(false));
+        return;
+      }
+      SuccessToast({ message: data?.message });
+      if (router.canDismiss()) {
+        router.dismissTo("(auth)/sign-in");
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        ErrorToast({
+          message: error?.response?.data?.message || error.message,
+        });
+      } else {
+        ErrorToast({ message: "Something went wrong" });
+      }
     }
     dispatch(setLoading(false));
   };

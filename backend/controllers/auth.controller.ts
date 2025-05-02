@@ -4,7 +4,8 @@ import { Cart } from "../models/cart.model.ts";
 import { Otp } from "../models/otp.model.ts";
 import { Wishlist } from "../models/wishlist.model.ts";
 import bcrypt from "bcryptjs";
-import { generateJwtToken } from "../utils/jwt.ts";
+import { generateJwtToken, verifyJwtToken } from "../utils/jwt.ts";
+import { JwtPayload } from "jsonwebtoken";
 
 export const signUpController = async (
   req: express.Request,
@@ -16,14 +17,19 @@ export const signUpController = async (
       res.status(400).json({ message: "Missing required fields" });
       return;
     }
-    const existingOtp = await Otp.findOne({ email });
-    if (!existingOtp || existingOtp.otp !== otp) {
-      res.status(400).json({ message: "Invalid OTP" });
-      return;
-    }
     const existingUser = await User.exists({ email });
     if (existingUser) {
       res.status(400).json({ message: "User already exists" });
+      return;
+    }
+    const existingOtp = await Otp.findOne({ email });
+    if (!existingOtp) {
+      res.status(400).json({ message: "Invalid OTP" });
+      return;
+    }
+    const isOtpMatched = await bcrypt.compare(otp, existingOtp.otp);
+    if (!isOtpMatched) {
+      res.status(400).json({ message: "Invalid OTP" });
       return;
     }
     const salt = bcrypt.genSaltSync(10);
@@ -57,21 +63,21 @@ export const sendOtpController = async (
   res: express.Response
 ) => {
   try {
-    const { email } = req.body;
-    if (!email) {
+    const { email, type } = req.body;
+    if (!email || !type) {
       res
         .status(400)
         .json({ success: false, message: "Missing required fields" });
       return;
     }
     const existingUser = await User.exists({ email });
-    if (existingUser) {
+    if (type === "sign_up" && existingUser) {
       res.status(400).json({ success: false, message: "User already exists" });
       return;
     }
     const existingOtp = await Otp.exists({ email });
     if (existingOtp) await Otp.findByIdAndDelete(existingOtp._id);
-    await Otp.create({ email });
+    await Otp.create({ email, reason: type });
     res.status(200).json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
     res
@@ -128,6 +134,90 @@ export const signInController = async (
       message: "Logged in successfully",
       accessToken,
       refreshToken,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error });
+  }
+};
+
+export const verifyResetPasswordOtpController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, otp } = req.body;
+    if (!email || !otp) {
+      res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
+      return;
+    }
+    const existingOtp = await Otp.findOne({ email });
+    if (!existingOtp) {
+      res.status(400).json({ success: false, message: "Invalid OTP" });
+      return;
+    }
+    const isOtpMatched = await bcrypt.compare(otp, existingOtp.otp);
+    if (!isOtpMatched) {
+      res.status(400).json({ success: false, message: "Invalid OTP" });
+      return;
+    }
+    await Otp.findByIdAndDelete(existingOtp._id);
+    const resetPasswordToken = generateJwtToken({
+      jwtPayload: { email },
+      jwtExpiry: "5m",
+      jwtSecret: process.env.RESET_PASSWORD_TOKEN_SECRET!,
+    });
+    res.status(200).json({
+      success: true,
+      message: "OTP verified successfully",
+      token: resetPasswordToken,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Something went wrong", error });
+  }
+};
+
+export const forgotPasswordController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { email, newPassword, token } = req.body;
+    if (!email || !newPassword || !token) {
+      res
+        .status(400)
+        .json({ success: false, message: "Missing required fields" });
+      return;
+    }
+    const isVerified = verifyJwtToken({
+      token,
+      jwtSecret: process.env.RESET_PASSWORD_TOKEN_SECRET!,
+    }) as JwtPayload;
+    if (!isVerified || isVerified.email !== email) {
+      res.status(400).json({
+        success: false,
+        message: "Verification Failed. Please try again.",
+      });
+      return;
+    }
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(404).json({ success: false, message: "User does not exist" });
+      return;
+    }
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+    user.password = hashedPassword;
+    await user.save();
+    res.status(200).json({
+      success: true,
+      message:
+        "Password changed successfully. You can now use your new password to log in.",
     });
   } catch (error) {
     res
