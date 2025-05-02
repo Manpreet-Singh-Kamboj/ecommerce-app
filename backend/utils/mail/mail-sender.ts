@@ -31,14 +31,8 @@ export const sendEmail = async ({ email, title, htmlBody }: SendEmailProps) => {
       },
     });
 
-    const info = transporter.sendMail(mailOptions);
-    info
-      .then((_) => {
-        console.log("Email sent");
-      })
-      .catch((_) => {
-        console.log("Email not sent");
-      });
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent");
   } catch (error) {
     console.error("Error sending email: ", error);
   }
