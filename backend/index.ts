@@ -1,7 +1,7 @@
 import express from "express";
-import { loadEnv } from "./utils/dotenv.ts";
-import authRouter from "./routes/auth.routes.ts";
-import connectToDatabase from "./config/database.ts";
+import { loadEnv } from "./utils/dotenv";
+import authRouter from "./routes/auth.routes";
+import connectToDatabase from "./config/database";
 loadEnv();
 const PORT = process.env.PORT || 5000;
 connectToDatabase();

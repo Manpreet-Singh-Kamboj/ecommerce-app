@@ -1,10 +1,10 @@
 import express from "express";
-import { User } from "../models/user.model.ts";
-import { Cart } from "../models/cart.model.ts";
-import { Otp } from "../models/otp.model.ts";
-import { Wishlist } from "../models/wishlist.model.ts";
+import { User } from "../models/user.model";
+import { Cart } from "../models/cart.model";
+import { Otp } from "../models/otp.model";
+import { Wishlist } from "../models/wishlist.model";
 import bcrypt from "bcryptjs";
-import { generateJwtToken, verifyJwtToken } from "../utils/jwt.ts";
+import { generateJwtToken, verifyJwtToken } from "../utils/jwt";
 import { JwtPayload } from "jsonwebtoken";
 
 export const signUpController = async (

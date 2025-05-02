@@ -5,7 +5,7 @@ import {
   signInController,
   forgotPasswordController,
   verifyResetPasswordOtpController,
-} from "../controllers/auth.controller.ts";
+} from "../controllers/auth.controller";
 
 const router = Router();
 

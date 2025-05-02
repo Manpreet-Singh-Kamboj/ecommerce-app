@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { loadEnv } from "../../utils/dotenv.ts";
+import { loadEnv } from "../../utils/dotenv";
 loadEnv();
 
 if (!process.env.EMAIL || !process.env.EMAIL_PASSWORD)
