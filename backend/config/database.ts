@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { loadEnv } from "../utils/dotenv.ts";
+import { loadEnv } from "../utils/dotenv";
 loadEnv();
 
 const connectToDatabase = () => {

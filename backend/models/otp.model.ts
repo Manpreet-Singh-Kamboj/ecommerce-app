@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { sendEmail } from "../utils/mail/mail-sender.ts";
-import { otpVerificationMail } from "../utils/mail/templates/otp-verification.ts";
+import { sendEmail } from "../utils/mail/mail-sender";
+import { otpVerificationMail } from "../utils/mail/templates/otp-verification";
 import bcrypt from "bcryptjs";
-import { resetPasswordVerificationEmail } from "../utils/mail/templates/reset-password.ts";
+import { resetPasswordVerificationEmail } from "../utils/mail/templates/reset-password";
 const { Schema, model, models } = mongoose;
 
 const OtpSchema = new Schema({
