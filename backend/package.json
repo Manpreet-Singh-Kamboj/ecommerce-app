@@ -15,6 +15,7 @@
   "description": "",
   "dependencies": {
     "@types/express": "^5.0.1",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/nodemailer": "^6.4.17",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
@@ -26,6 +27,7 @@
     "nodemon": "^3.1.9"
   },
   "devDependencies": {
-    "tsx": "^4.19.4"
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }
