@@ -30,17 +30,9 @@ export const sendEmail = async ({ email, title, htmlBody }: SendEmailProps) => {
         pass: process.env.EMAIL_PASSWORD,
       },
     });
-    await new Promise((resolve, reject) => {
-      transporter.sendMail(mailOptions, (error, _) => {
-        if (!error) {
-          console.log("Email sent successfully");
-          resolve("Email Sent");
-        } else {
-          console.error("Error sending email: ", error);
-          reject(error);
-        }
-      });
-    });
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent");
   } catch (error) {
     console.error("Error sending email: ", error);
   }
