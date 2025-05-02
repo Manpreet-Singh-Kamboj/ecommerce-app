@@ -1,10 +1,11 @@
-export const otpVerificationMail = (otp: string) => {
+export const resetPasswordVerificationEmail = (otp: string) => {
   return `
-        <!DOCTYPE html>
+
+    <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Verify your OTP - Khareedo</title>
+  <title>Reset Your Password - Khareedo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * {
@@ -86,11 +87,11 @@ export const otpVerificationMail = (otp: string) => {
       <p>Your favorite shopping destination</p>
     </div>
     <div class="email-body">
-      <h2>Verify Your Email</h2>
-      <p>Hey there 👋<br><br>
-      Use the following OTP to complete your sign-in process. It’s valid for the next <strong>5 minutes</strong>.</p>
+      <h2>Reset Your Password</h2>
+      <p>Hello 👋<br><br>
+      You recently requested to reset your password. Use the OTP below to proceed. It’s valid for the next <strong>5 minutes</strong>.</p>
       <div class="otp-box">${otp}</div>
-      <p class="note">Please do not share this code with anyone for security reasons.</p>
+      <p class="note">If you didn’t request this, you can safely ignore this email.<br>Do not share this code with anyone.</p>
     </div>
     <div class="email-footer">
       &copy; 2025 Khareedo. All rights reserved.<br>
@@ -99,5 +100,5 @@ export const otpVerificationMail = (otp: string) => {
   </div>
 </body>
 </html>
-    `;
+      `;
 };

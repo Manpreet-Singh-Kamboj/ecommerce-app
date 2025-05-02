@@ -2,10 +2,13 @@
   "type": "module",
   "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.ts"
+    "start": "nodemon index.ts",
+    "build": "echo 'No build step for backend'",
+    "vercel-build": "echo 'No vercel-build step for backend'",
+    "dev": "nodemon index.ts"
   },
   "author": "",
   "license": "ISC",

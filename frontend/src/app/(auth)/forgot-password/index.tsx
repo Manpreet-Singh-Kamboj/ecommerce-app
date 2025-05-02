@@ -8,6 +8,10 @@ import FloatingBackButton from "@/components/FloatingBackButton";
 import { router } from "expo-router";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
+import useAppDispatch from "@/hooks/useAppDispatch";
+import { sendVerificationOtp } from "@/services/auth";
+import { setForgotPasswordData } from "@/redux/slices/auth.slice";
+import ErrorToast from "@/components/Toasts/error-toast";
 
 type Props = {};
 
@@ -15,13 +19,35 @@ const ForgotPassword = ({}: Props) => {
   const [formData, setFormData] = React.useState({
     email: "",
   });
-
+  const dispatch = useAppDispatch();
   const handleChange = (value: string, name: string) => {
     setFormData({
       ...formData,
       [name]: value,
     });
   };
+
+  const handleForgotPassword = () => {
+    if (!formData.email) {
+      ErrorToast({
+        message: "Email is required!",
+      });
+      return;
+    }
+    dispatch(
+      setForgotPasswordData({
+        email: formData.email,
+      })
+    );
+    dispatch(
+      sendVerificationOtp({
+        email: formData.email,
+        type: "forgot_password",
+        router,
+      })
+    );
+  };
+
   const { width } = useWindowDimensions();
   return (
     <SafeAreaWrapper>
@@ -39,9 +65,7 @@ const ForgotPassword = ({}: Props) => {
         />
         <Button
           text="Reset Password"
-          onPress={() => {
-            router.navigate("/otp-verify");
-          }}
+          onPress={handleForgotPassword}
           customStyle={{
             marginTop: 35,
             marginHorizontal: 25,

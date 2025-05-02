@@ -15,14 +15,20 @@ import PageDescription from "@/components/PageDescription";
 import OtpInput from "@/components/OtpInput";
 import useAppDispatch from "@/hooks/useAppDispatch";
 import ErrorToast from "@/components/Toasts/error-toast";
-import { signUp } from "@/services/auth";
-import { router } from "expo-router";
+import {
+  forgotPassword,
+  signUp,
+  verifyForgotPasswordOtp,
+} from "@/services/auth";
+import { router, useLocalSearchParams } from "expo-router";
 import useAuth from "@/hooks/useAuth";
+import { setForgotPasswordData } from "@/redux/slices/auth.slice";
 
 const OTPScreen = () => {
   const [otp, setOtp] = useState("");
+  const { type } = useLocalSearchParams();
   const dispatch = useAppDispatch();
-  const { signupData, loading } = useAuth();
+  const { signupData, loading, forgotPasswordData } = useAuth();
   const handleChange = (otp: string) => {
     setOtp(otp);
   };
@@ -33,8 +39,27 @@ const OTPScreen = () => {
       });
       return;
     }
-    const { name, email, password } = signupData;
-    dispatch(signUp({ name, email, password, otp, router }));
+    switch (type) {
+      case "sign_up":
+        const { name, email: signUpEmail, password } = signupData;
+        dispatch(signUp({ name, email: signUpEmail, password, otp, router }));
+        break;
+      case "forgot_password":
+        const { email } = forgotPasswordData;
+        dispatch(
+          setForgotPasswordData({
+            email,
+            otp,
+          })
+        );
+        dispatch(verifyForgotPasswordOtp({ email, otp, router }));
+        break;
+      default:
+        ErrorToast({
+          message: "Invalid request.",
+        });
+        break;
+    }
   };
 
   const { width } = useWindowDimensions();

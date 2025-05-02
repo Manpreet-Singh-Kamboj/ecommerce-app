@@ -33,10 +33,10 @@ export const sendEmail = async ({ email, title, htmlBody }: SendEmailProps) => {
   try {
     transporter.sendMail(mailOptions, (error, _) => {
       if (error) {
-        throw new Error("Error sending email: ", error);
+        console.error("Error sending email: ", error);
       }
     });
   } catch (error) {
-    throw new Error("Error sending email: ", error);
+    console.error("Error sending email: ", error);
   }
 };
