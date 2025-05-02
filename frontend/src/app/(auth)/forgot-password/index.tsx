@@ -1,4 +1,9 @@
-import { StyleSheet, useWindowDimensions, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import React from "react";
 import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import Input from "@/components/Input";
@@ -12,6 +17,7 @@ import useAppDispatch from "@/hooks/useAppDispatch";
 import { sendVerificationOtp } from "@/services/auth";
 import { setForgotPasswordData } from "@/redux/slices/auth.slice";
 import ErrorToast from "@/components/Toasts/error-toast";
+import useAuth from "@/hooks/useAuth";
 
 type Props = {};
 
@@ -20,6 +26,7 @@ const ForgotPassword = ({}: Props) => {
     email: "",
   });
   const dispatch = useAppDispatch();
+  const { loading } = useAuth();
   const handleChange = (value: string, name: string) => {
     setFormData({
       ...formData,
@@ -64,7 +71,10 @@ const ForgotPassword = ({}: Props) => {
           onChange={handleChange}
         />
         <Button
-          text="Reset Password"
+          text={
+            loading ? <ActivityIndicator color={"#fff"} /> : "Reset Password"
+          }
+          disabled={loading}
           onPress={handleForgotPassword}
           customStyle={{
             marginTop: 35,
@@ -72,7 +82,7 @@ const ForgotPassword = ({}: Props) => {
             borderRadius: 14,
           }}
           textColor="#fff"
-          backgroundColor={Colors.secondaryBG}
+          backgroundColor={loading ? Colors.disabledButton : Colors.secondaryBG}
         />
       </View>
     </SafeAreaWrapper>
