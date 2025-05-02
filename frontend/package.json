@@ -22,7 +22,6 @@
     "expo-status-bar": "~2.0.1",
     "react": "18.3.1",
     "react-native": "0.76.7",
-    "react-native-filament": "^1.6.1",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "^1.11.0",
     "react-native-google-places-autocomplete": "^2.5.7",
@@ -32,7 +31,6 @@
     "react-native-screens": "~4.4.0",
     "react-native-svg": "^15.11.2",
     "react-native-toast-message": "^2.3.0",
-    "react-native-worklets-core": "^1.5.0",
     "react-redux": "^9.2.0",
     "redux-thunk": "^3.1.0"
   },
