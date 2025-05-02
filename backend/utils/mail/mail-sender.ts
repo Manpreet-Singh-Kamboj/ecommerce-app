@@ -5,17 +5,6 @@ loadEnv();
 if (!process.env.EMAIL || !process.env.EMAIL_PASSWORD)
   throw new Error("Email or Email password not found in .env file");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  service: "Gmail",
-  port: 465,
-  secure: true,
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-});
-
 interface SendEmailProps {
   email: string;
   title: string;
@@ -31,6 +20,16 @@ export const sendEmail = async ({ email, title, htmlBody }: SendEmailProps) => {
     html: htmlBody,
   };
   try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      service: "Gmail",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
     transporter.sendMail(mailOptions, (error, _) => {
       if (error) {
         console.error("Error sending email: ", error);
