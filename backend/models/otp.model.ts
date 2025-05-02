@@ -32,7 +32,7 @@ OtpSchema.pre("save", async function (next) {
   const salt = bcrypt.genSaltSync(10);
   const hashedOtp = await bcrypt.hash(otp.toString(), salt);
   this.otp = hashedOtp;
-  sendEmail({
+  await sendEmail({
     email: this.email,
     title:
       this.reason === "sign_up"
