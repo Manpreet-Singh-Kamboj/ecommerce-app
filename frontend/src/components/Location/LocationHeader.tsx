@@ -7,6 +7,7 @@ import "react-native-get-random-values";
 import { Colors } from "@/constants/colors";
 import { router } from "expo-router";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import ErrorToast from "../Toasts/error-toast";
 
 export default function LocationHeader() {
   const { setLocation } = useContext(LocationContext);
@@ -29,7 +30,6 @@ export default function LocationHeader() {
           height: 45,
           maxWidth: 45,
           maxHeight: 45,
-          marginTop: 2.5,
           justifyContent: "center",
           alignItems: "center",
         }}
@@ -43,7 +43,34 @@ export default function LocationHeader() {
       </Pressable>
       <View style={styles.searchContainer}>
         <GooglePlacesAutocomplete
-          placeholder="Search"
+          placeholder="Search for your nearest location"
+          styles={{
+            container: {
+              backgroundColor: "transparent",
+              zIndex: 100,
+              gap: 5,
+            },
+            textInputContainer: {
+              backgroundColor: "transparent",
+              borderRadius: 100,
+            },
+            textInput: {
+              backgroundColor: Colors.primaryBG,
+              borderRadius: 100,
+              fontSize: 16,
+              paddingHorizontal: 15,
+              overflow: "hidden",
+            },
+            listView: {
+              backgroundColor: Colors.primaryBG,
+              borderRadius: 22.5,
+            },
+            row: {
+              padding: 15,
+              borderBottomWidth: 1,
+              borderBottomColor: "#f0f0f0",
+            },
+          }}
           fetchDetails
           enablePoweredByContainer={false}
           onPress={(_, details = null) => {
@@ -57,8 +84,18 @@ export default function LocationHeader() {
             language: "en",
           }}
           listViewDisplayed="auto"
-          onFail={(error) => console.log("Autocomplete error:", error)}
-          onNotFound={() => console.log("No results found")}
+          onFail={(error) => {
+            console.log("Autocomplete error:", error);
+            ErrorToast({
+              message: "Internal Server Error. Please try again later.",
+            });
+          }}
+          onNotFound={() =>
+            ErrorToast({
+              message:
+                "Sorry, we couldn't find any locations matching your search. Please try again with a different address.",
+            })
+          }
           debounce={400}
         />
       </View>
@@ -70,8 +107,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     width: "85%",
     alignSelf: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
+    borderRadius: 100,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

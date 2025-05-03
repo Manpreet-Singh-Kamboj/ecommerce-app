@@ -2,7 +2,6 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
   useWindowDimensions,
   ViewToken,
@@ -23,11 +22,11 @@ import { Colors } from "@/constants/colors";
 import Brands from "@/components/Home/brands";
 import ProductCard from "@/components/Home/product-card";
 import { productData } from "@/constants/product-data";
-import SearchBar from "@/components/SearchBar";
 import FilterIcon from "@/components/icons/FilterIcon";
 import { router } from "expo-router";
 import { AntDesign } from "@expo/vector-icons";
 import HorizontalFilter from "@/components/Home/horizontal-filters";
+import { Image } from "expo-image";
 
 const HomeScreen = () => {
   const { width } = useWindowDimensions();
@@ -143,19 +142,16 @@ const HomeScreen = () => {
                       <Text style={{ color: "white" }}>{item.buttonText}</Text>
                     </TouchableOpacity>
                   </View>
-
-                  {/* Right Image Section */}
                   <Image
                     source={item.imageUrl}
                     style={{
                       position: "absolute",
                       right: -25,
-                      // top: -50,
                       bottom: -10,
                       width: "80%",
                       height: 180,
-                      resizeMode: "cover",
                     }}
+                    contentFit="cover"
                   />
                 </View>
               )}
@@ -172,19 +168,6 @@ const HomeScreen = () => {
           <HorizontalFilter />
           <View style={styles.productsGrid}>
             {productData.map((item, index) => {
-              // Use different images based on product or index
-              const productImages = [
-                require("@assets/images/Yellow Shoe.png"),
-                require("@assets/images/react-presto.png"),
-                require("@assets/images/Greenshoe.png"),
-                require("@assets/images/airmax-blue.png"),
-                // require("@assets/images/White Shoe.png"),
-                // require("@assets/images/Green Shoe.png"),
-              ];
-
-              // Use modulo to cycle through images if there are more products than images
-              const imageIndex = index % productImages.length;
-
               return (
                 <ProductCard
                   key={index}

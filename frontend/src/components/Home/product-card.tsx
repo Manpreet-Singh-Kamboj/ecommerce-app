@@ -2,12 +2,12 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   ImageSourcePropType,
   Pressable,
 } from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { Image } from "expo-image";
 
 type Props = {
   name: string;
@@ -20,7 +20,7 @@ const ProductCard = ({ name, price, image, onPress }: Props) => {
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} resizeMode="contain" />
+        <Image source={image} style={styles.image} contentFit="contain" />
       </View>
       <View style={styles.infoContainer}>
         <Text style={styles.name}>{name}</Text>
