@@ -28,8 +28,8 @@ const WishlistCard = ({ name, price, image, colors }: Props) => {
           style={{
             height: "100%",
             width: "100%",
-            resizeMode: "contain",
           }}
+          contentFit="contain"
         />
       </View>
       <View

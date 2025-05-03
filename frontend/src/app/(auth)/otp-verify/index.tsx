@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Pressable,
   StyleSheet,
   Text,
   View,
@@ -17,6 +18,7 @@ import useAppDispatch from "@/hooks/useAppDispatch";
 import ErrorToast from "@/components/Toasts/error-toast";
 import {
   forgotPassword,
+  sendVerificationOtp,
   signUp,
   verifyForgotPasswordOtp,
 } from "@/services/auth";
@@ -26,12 +28,66 @@ import { setForgotPasswordData } from "@/redux/slices/auth.slice";
 
 const OTPScreen = () => {
   const [otp, setOtp] = useState("");
+  const [resetOtpTimer, setResetOtpTimer] = useState(30);
+  const [resendButtonDisabled, setResendButtonDisabled] = useState(false);
   const { type } = useLocalSearchParams();
   const dispatch = useAppDispatch();
   const { signupData, loading, forgotPasswordData } = useAuth();
   const handleChange = (otp: string) => {
     setOtp(otp);
   };
+  React.useEffect(() => {
+    if (resetOtpTimer === 0) return;
+    let resetOtpTimerInterval: NodeJS.Timeout | undefined;
+    if (resetOtpTimer > 0) {
+      setResendButtonDisabled(true);
+      resetOtpTimerInterval = setInterval(() => {
+        setResetOtpTimer((prev) => prev - 1);
+      }, 1000);
+    } else {
+      clearInterval(resetOtpTimerInterval);
+      setResendButtonDisabled(false);
+    }
+    return () => {
+      clearInterval(resetOtpTimerInterval);
+    };
+  }, [resetOtpTimer]);
+
+  const handleResendOtp = () => {
+    if (!resendButtonDisabled) return;
+    switch (type) {
+      case "sign_up":
+        const { email: signUpEmail } = signupData;
+        dispatch(
+          sendVerificationOtp({
+            email: signUpEmail,
+            type,
+            router,
+            isResendOtp: true,
+          })
+        );
+        break;
+      case "forgot_password":
+        const { email: forgotPasswordEmail } = forgotPasswordData;
+        dispatch(
+          sendVerificationOtp({
+            email: forgotPasswordEmail,
+            type,
+            router,
+            isResendOtp: true,
+          })
+        );
+        break;
+      default:
+        ErrorToast({
+          message: "Invalid request.",
+        });
+        break;
+    }
+    setResendButtonDisabled(true);
+    setResetOtpTimer(30);
+  };
+
   const handleOtpVerifyAndSignup = () => {
     if (otp.trim().length < 4) {
       ErrorToast({
@@ -83,12 +139,20 @@ const OTPScreen = () => {
             onPress={handleOtpVerifyAndSignup}
             customStyle={{ borderRadius: 15 }}
           />
-          <View style={styles.resendContainer}>
-            <Text style={styles.resendText}>Resend code to</Text>
-            <Text style={styles.timer}>
-              {String(30).padStart(2, "0")}:{String(0).padStart(2, "0")}
-            </Text>
-          </View>
+          {resetOtpTimer > 0 ? (
+            <View style={[styles.resendContainer]}>
+              <Text style={styles.resendText}>Resend code in</Text>
+              <Text style={styles.timer}>{`00:${resetOtpTimer
+                .toString()
+                .padStart(2, "0")}`}</Text>
+            </View>
+          ) : (
+            <View style={styles.resendButtonContainer}>
+              <Pressable onPress={handleResendOtp} style={styles.resendButton}>
+                <Text style={styles.resendButtonText}>Resend OTP</Text>
+              </Pressable>
+            </View>
+          )}
         </View>
       </View>
     </SafeAreaWrapper>
@@ -141,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: 15,
+    marginTop: 30,
   },
   resendText: {
     color: "#666",
@@ -150,5 +214,20 @@ const styles = StyleSheet.create({
   timer: {
     fontSize: 14,
     color: "#666",
+  },
+  resendButtonContainer: {
+    alignItems: "flex-end",
+    marginTop: 20,
+  },
+  resendButton: {
+    backgroundColor: Colors.secondaryBG,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+  },
+  resendButtonText: {
+    color: Colors.primaryBG,
+    fontSize: 12.5,
+    fontWeight: "bold",
   },
 });

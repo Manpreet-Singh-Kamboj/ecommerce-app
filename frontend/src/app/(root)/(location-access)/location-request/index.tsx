@@ -42,7 +42,9 @@ const LocationRequest = () => {
       return;
     }
     try {
-      const location = await Location.getCurrentPositionAsync();
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Low,
+      });
       setLocation(location.coords);
       if (router.canDismiss()) {
         router.dismissAll();

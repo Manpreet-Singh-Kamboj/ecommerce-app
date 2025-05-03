@@ -43,6 +43,7 @@ type SendVerificationOtpProps = {
   email: string;
   type: "forgot_password" | "sign_up";
   router: typeof router;
+  isResendOtp?: boolean;
 };
 
 type ForgotPasswordProps = {
@@ -98,9 +99,10 @@ export function sendVerificationOtp({
   email,
   type,
   router,
+  isResendOtp = false,
 }: SendVerificationOtpProps) {
   return async (dispatch: AppDispatch) => {
-    dispatch(setLoading(true));
+    if (!isResendOtp) dispatch(setLoading(true));
     try {
       const { data } = await apiConnector({
         method: "POST",
@@ -119,7 +121,9 @@ export function sendVerificationOtp({
         message:
           "Verification code sent to your email. Please check your inbox/spam.",
       });
-      router.navigate(`(auth)/otp-verify?type=${type}`);
+      if (!isResendOtp) {
+        router.navigate(`(auth)/otp-verify?type=${type}`);
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         ErrorToast({

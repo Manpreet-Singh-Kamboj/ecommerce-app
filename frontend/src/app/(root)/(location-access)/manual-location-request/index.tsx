@@ -35,7 +35,9 @@ export default function ManualLocationRequestScreen() {
     }
     try {
       setLocationPermissionDenied(false);
-      const location = await Location.getCurrentPositionAsync();
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Low,
+      });
       setLocation(location.coords);
     } catch (error) {
       Alert.alert("Error", "Failed to retrieve location. Please try again.");
@@ -85,95 +87,101 @@ export default function ManualLocationRequestScreen() {
     );
   }
   return (
-    location != null && (
-      <View style={styles.container}>
-        <LinearGradient
-          colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0.25)", "transparent"]}
-          style={[
-            styles.headerContainer,
-            {
-              paddingTop: insets.top === 0 ? 34 : insets.top,
-              paddingBottom: insets.bottom === 0 ? 34 : insets.bottom,
-            },
-          ]}
-        >
-          <LocationHeader />
-        </LinearGradient>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          ref={mapRef}
-          style={styles.map}
-          customMapStyle={MAP_STYLE}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
+    <View style={styles.container}>
+      <LinearGradient
+        colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0.25)", "transparent"]}
+        style={[
+          styles.headerContainer,
+          {
+            paddingTop: insets.top === 0 ? 34 : insets.top,
+            paddingBottom: insets.bottom === 0 ? 34 : insets.bottom,
+          },
+        ]}
+      >
+        <LocationHeader />
+      </LinearGradient>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        ref={mapRef}
+        style={styles.map}
+        customMapStyle={MAP_STYLE}
+        initialRegion={{
+          latitude:
+            location?.latitude ||
+            parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LAT!),
+          longitude:
+            location?.longitude ||
+            parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LNG!),
+          latitudeDelta: 0.003,
+          longitudeDelta: 0.003,
+        }}
+        showsUserLocation
+        onPoiClick={(poi) => {
+          setLocation(
+            poi.nativeEvent.coordinate as Location.LocationObjectCoords
+          );
+        }}
+        onPress={(mapPressEvent) =>
+          setLocation(
+            mapPressEvent.nativeEvent
+              .coordinate as Location.LocationObjectCoords
+          )
+        }
+      >
+        <Marker
+          coordinate={{
+            latitude:
+              location?.latitude ||
+              parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LAT!),
+            longitude:
+              location?.longitude ||
+              parseFloat(process.env.EXPO_PUBLIC_FALLBACK_LNG!),
           }}
-          showsUserLocation
-          onPoiClick={(poi) => {
+          draggable
+          onDragEnd={(markerDragEvent) =>
             setLocation(
-              poi.nativeEvent.coordinate as Location.LocationObjectCoords
-            );
-          }}
-          onPress={(mapPressEvent) =>
-            setLocation(
-              mapPressEvent.nativeEvent
+              markerDragEvent.nativeEvent
                 .coordinate as Location.LocationObjectCoords
             )
           }
-        >
-          <Marker
-            coordinate={{
-              latitude: location.latitude,
-              longitude: location.longitude,
-            }}
-            draggable
-            onDragEnd={(markerDragEvent) =>
-              setLocation(
-                markerDragEvent.nativeEvent
-                  .coordinate as Location.LocationObjectCoords
-              )
+        />
+      </MapView>
+      <Pressable
+        onPress={() => {
+          if (location) {
+            if (router.canDismiss()) {
+              router.dismissAll();
             }
-          />
-        </MapView>
-        <Pressable
-          onPress={() => {
-            if (location) {
-              if (router.canDismiss()) {
-                router.dismissAll();
-              }
-              router.replace("home");
-            }
-          }}
+            router.replace("home");
+          }
+        }}
+        style={{
+          position: "absolute",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+          bottom: insets.bottom === 0 ? 20 : insets.bottom + 15,
+          right: 16,
+          backgroundColor: Colors.secondaryBG,
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+          borderRadius: 32,
+        }}
+      >
+        <Text
           style={{
-            position: "absolute",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-            bottom: insets.bottom === 0 ? 20 : insets.bottom + 15,
-            right: 16,
-            backgroundColor: Colors.secondaryBG,
-            paddingVertical: 12,
-            paddingHorizontal: 20,
-            borderRadius: 32,
+            color: Colors.primaryBG,
+            fontWeight: "600",
+            fontSize: 18,
+            marginRight: 4,
           }}
         >
-          <Text
-            style={{
-              color: Colors.primaryBG,
-              fontWeight: "600",
-              fontSize: 18,
-              marginRight: 4,
-            }}
-          >
-            Continue
-          </Text>
-          <Entypo name="chevron-right" size={24} color={Colors.primaryBG} />
-        </Pressable>
-      </View>
-    )
+          Continue
+        </Text>
+        <Entypo name="chevron-right" size={24} color={Colors.primaryBG} />
+      </Pressable>
+    </View>
   );
 }
 

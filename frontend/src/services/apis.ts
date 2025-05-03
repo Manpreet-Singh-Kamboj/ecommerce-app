@@ -1,4 +1,5 @@
 const BASE_URL = "https://ecommerce-app-rn.vercel.app/api";
+// const BASE_URL = "http://192.168.1.48:4000/api";
 
 export const authEndpoints = {
   SIGN_IN: `${BASE_URL}/auth/sign-in`,
