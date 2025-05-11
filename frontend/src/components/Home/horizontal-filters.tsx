@@ -2,6 +2,7 @@ import { FlatList, Pressable, StyleSheet, Text } from "react-native";
 import React from "react";
 import { filtersData } from "@/constants/filters-data";
 import { Colors } from "@/constants/colors";
+import { router } from "expo-router";
 
 type FilterItem = {
   value: string;
@@ -24,7 +25,15 @@ const HorizontalFilter = () => {
           styles.filterButton,
           item.value === selectedFilter && styles.selectedFilterButton,
         ]}
-        onPress={handleFilterPress}
+        onPress={() => {
+          handleFilterPress();
+          router.navigate({
+            pathname: `/${item.value}`,
+            params: {
+              headerTitle: item.label,
+            },
+          });
+        }}
       >
         <Text
           style={[

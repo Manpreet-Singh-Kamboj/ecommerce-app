@@ -1,25 +1,56 @@
+import ErrorToast from "@/components/Toasts/error-toast";
 import useAuth from "@/hooks/useAuth";
-import { setToken } from "@/redux/slices/auth.slice";
+import { setLoading, setToken } from "@/redux/slices/auth.slice";
+import { apiConnector } from "@/services/api-connector";
+import { authEndpoints } from "@/services/apis";
 import { getAccessToken } from "@/utils/storage";
 import { Redirect } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 const RootPage = () => {
-  const { token } = useAuth();
+  const { token, loading } = useAuth();
   const dispatch = useDispatch();
+  const [isAuth, setIsAuth] = React.useState(false);
 
   useEffect(() => {
     const init = async () => {
-      const storedToken = getAccessToken();
-      if (storedToken) {
-        dispatch(setToken(storedToken));
+      const accessToken = getAccessToken();
+      try {
+        dispatch(setLoading(true));
+        const { IS_AUTHENTICATED } = authEndpoints;
+
+        const { data } = await apiConnector({
+          url: IS_AUTHENTICATED,
+          method: "POST",
+          body: {
+            accessToken,
+          },
+        });
+        setIsAuth(data.success);
+        if (data.success) {
+          dispatch(setToken(accessToken));
+        }
+      } catch (error) {
+        if (
+          getAccessToken() != null &&
+          accessToken != null &&
+          getAccessToken() == accessToken
+        ) {
+          ErrorToast({
+            message: "Please sign in again to continue.",
+          });
+        }
+      } finally {
+        dispatch(setLoading(false));
       }
     };
     init();
   }, []);
 
-  return token ? (
+  if (loading) return null;
+
+  return isAuth ? (
     <Redirect href="(root)/home" />
   ) : (
     <Redirect href="(onboarding)/welcome" />

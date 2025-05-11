@@ -226,4 +226,89 @@ export const forgotPasswordController = async (
   }
 };
 
-/// TODO: Implement Token Refresh Controller
+export const refreshTokenController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
+    res.status(400).json({ success: false, message: "No token provided" });
+    return;
+  }
+  try {
+    if (!process.env.REFRESH_TOKEN_SECRET)
+      throw new Error("REFRESH_TOKEN_SECRET is not defined");
+    const decoded = verifyJwtToken({
+      token: refreshToken,
+      jwtSecret: process.env.REFRESH_TOKEN_SECRET,
+    }) as JwtPayload;
+    if (!decoded.userId) {
+      res.status(401).json({ success: false, message: "Invalid token" });
+      return;
+    }
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      res.status(404).json({ success: false, message: "User not found" });
+      return;
+    }
+    const accessTokenPayload = {
+      userId: user._id,
+      email: user.email,
+      role: user.role,
+    };
+    const newAccessToken = generateJwtToken({
+      jwtPayload: accessTokenPayload,
+      jwtExpiry: "30m",
+      jwtSecret: process.env.ACCESS_TOKEN_SECRET!,
+    });
+    const refreshTokenPayload = {
+      userId: user._id,
+    };
+    const newRefreshToken = generateJwtToken({
+      jwtPayload: refreshTokenPayload,
+      jwtExpiry: "7d",
+      jwtSecret: process.env.REFRESH_TOKEN_SECRET!,
+    });
+    res.status(200).json({
+      success: true,
+      accessToken: newAccessToken,
+      refreshToken: newRefreshToken,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error. Please try again later.",
+      error,
+    });
+  }
+};
+
+export const isAuthenticatedController = async (
+  req: express.Request,
+  res: express.Response
+) => {
+  try {
+    const { accessToken } = req.body;
+    if (!accessToken) {
+      res.status(401).json({ success: false, message: "No token provided" });
+      return;
+    }
+    if (!process.env.ACCESS_TOKEN_SECRET)
+      throw new Error("ACCESS_TOKEN_SECRET is not defined");
+    const decoded = verifyJwtToken({
+      token: accessToken,
+      jwtSecret: process.env.ACCESS_TOKEN_SECRET,
+    }) as JwtPayload;
+    if (!decoded.userId) {
+      res.status(401).json({ success: false, message: "Invalid token" });
+      return;
+    }
+    res.status(200).json({ success: true, message: "Authenticated" });
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: "Internal server error. Please try again later.",
+      error,
+    });
+  }
+};

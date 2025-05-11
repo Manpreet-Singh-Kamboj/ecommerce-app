@@ -7,17 +7,7 @@ type Props = {};
 
 const wishlist = (props: Props) => {
   return (
-    <ScrollView
-      contentContainerStyle={{
-        marginTop: 15,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        flexShrink: 0,
-        justifyContent: "space-between",
-        paddingHorizontal: 15,
-        paddingBottom: 115,
-      }}
-    >
+    <ScrollView contentContainerStyle={styles.container}>
       {wishlistData.map((item, index) => {
         return (
           <WishlistCard
@@ -29,10 +19,20 @@ const wishlist = (props: Props) => {
           />
         );
       })}
-      </ScrollView>
+    </ScrollView>
   );
 };
 
 export default wishlist;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    marginTop: 15,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    flexShrink: 0,
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingBottom: 115,
+  },
+});
