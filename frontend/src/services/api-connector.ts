@@ -38,8 +38,9 @@ axiosInstance.interceptors.response.use(
             refreshToken,
           });
           if (!data.success) {
+            router.replace("/welcome");
             ErrorToast({
-              message: "Internal Server Error",
+              message: "Please sign in again to continue.",
             });
             return;
           }
