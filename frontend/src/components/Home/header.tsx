@@ -37,10 +37,7 @@ const Header = () => {
   }, [location]);
   return (
     <View style={[styles.headerContainer]}>
-      <Pressable
-        style={{ gap: 3 }}
-        onPress={() => router.push("/location-request")}
-      >
+      <Pressable style={{ gap: 3 }} onPress={() => router.push("/addresses")}>
         <Text style={{ marginLeft: 4, color: Colors.textMuted }}>
           {currLocation.address}
         </Text>
