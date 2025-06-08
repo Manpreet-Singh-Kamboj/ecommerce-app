@@ -10,7 +10,7 @@ import { Colors } from "@/constants/colors";
 
 const AddressesScreen = () => {
   return (
-    <>
+    <View style={styles.container}>
       <Stack.Screen
         options={{
           contentStyle: {
@@ -35,16 +35,21 @@ const AddressesScreen = () => {
         contentContainerStyle={styles.flatList}
         keyExtractor={(item: Address) => item._id}
         renderItem={({ item }) => <AddressCard address={item} />}
+        scrollEnabled
       />
-    </>
+    </View>
   );
 };
 
 export default AddressesScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   flatList: {
     paddingHorizontal: 15,
+    paddingBottom: 30,
     marginTop: 10,
     gap: 15,
   },

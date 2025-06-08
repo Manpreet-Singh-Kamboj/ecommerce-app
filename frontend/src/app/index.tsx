@@ -35,7 +35,7 @@ const RootPage = () => {
         if (
           getAccessToken() != null &&
           accessToken != null &&
-          getAccessToken() == accessToken
+          getAccessToken() === accessToken
         ) {
           ErrorToast({
             message: "Please sign in again to continue.",

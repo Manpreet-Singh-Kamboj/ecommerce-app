@@ -55,11 +55,6 @@ PODS:
   - FBLazyVector (0.76.7)
   - fmt (9.1.0)
   - glog (0.3.5)
-  - Google-Maps-iOS-Utils (6.1.0):
-    - GoogleMaps (~> 9.0)
-  - GoogleMaps (9.3.0):
-    - GoogleMaps/Maps (= 9.3.0)
-  - GoogleMaps/Maps (9.3.0)
   - hermes-engine (0.76.7):
     - hermes-engine/Pre-built (= 0.76.7)
   - hermes-engine/Pre-built (0.76.7)
@@ -1305,11 +1300,11 @@ PODS:
     - Yoga
   - react-native-get-random-values (1.11.0):
     - React-Core
-  - react-native-google-maps (1.22.6):
+  - react-native-maps (1.24.1):
+    - react-native-maps/Maps (= 1.24.1)
+  - react-native-maps/Generated (1.24.1):
     - DoubleConversion
     - glog
-    - Google-Maps-iOS-Utils (= 6.1.0)
-    - GoogleMaps (= 9.3.0)
     - hermes-engine
     - RCT-Folly (= 2024.01.01.00)
     - RCTRequired
@@ -1320,8 +1315,6 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-maps
-    - react-native-maps-generated
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1330,7 +1323,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-maps (1.22.6):
+  - react-native-maps/Maps (1.24.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1343,28 +1336,7 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-maps-generated
-    - React-NativeModulesApple
-    - React-RCTFabric
-    - React-rendererdebug
-    - React-utils
-    - ReactCodegen
-    - ReactCommon/turbomodule/bridging
-    - ReactCommon/turbomodule/core
-    - Yoga
-  - react-native-maps-generated (1.22.6):
-    - DoubleConversion
-    - glog
-    - hermes-engine
-    - RCT-Folly (= 2024.01.01.00)
-    - RCTRequired
-    - RCTTypeSafety
-    - React-Core
-    - React-debug
-    - React-Fabric
-    - React-featureflags
-    - React-graphics
-    - React-ImageManager
+    - react-native-maps/Generated
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1965,9 +1937,7 @@ DEPENDENCIES:
   - React-Mapbuffer (from `../node_modules/react-native/ReactCommon`)
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
-  - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-maps (from `../node_modules/react-native-maps`)
-  - react-native-maps-generated (from `../node_modules/react-native-maps`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
@@ -2004,8 +1974,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Google-Maps-iOS-Utils
-    - GoogleMaps
     - libavif
     - libdav1d
     - SDWebImage
@@ -2113,11 +2081,7 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/microtasks"
   react-native-get-random-values:
     :path: "../node_modules/react-native-get-random-values"
-  react-native-google-maps:
-    :path: "../node_modules/react-native-maps"
   react-native-maps:
-    :path: "../node_modules/react-native-maps"
-  react-native-maps-generated:
     :path: "../node_modules/react-native-maps"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
@@ -2205,8 +2169,6 @@ SPEC CHECKSUMS:
   FBLazyVector: ca8044c9df513671c85167838b4188791b6f37e1
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
-  Google-Maps-iOS-Utils: 0a484b05ed21d88c9f9ebbacb007956edd508a96
-  GoogleMaps: b58e9627004f47043897eeae830c3ef023678f3b
   hermes-engine: eb4a80f6bf578536c58a44198ec93a30f6e69218
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
@@ -2240,9 +2202,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 23ffe602d0f5ca53b861ef8534cb8c63c4479671
   React-microtasksnativemodule: 73fdf0c53b6d50d55de2d5bd9abfb8c006b043a4
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
-  react-native-google-maps: a26647b8b3b617f34304d87096af63b702115d79
-  react-native-maps: 96c0b45cbfcc54820319dd665c63a856012e9c25
-  react-native-maps-generated: 8a2f849ba7cf38d6901035a71d0423c9d7060950
+  react-native-maps: dd4566edd6079c1b49b92280b7b2fa06a412d062
   react-native-safe-area-context: 458f6b948437afcb59198016b26bbd02ff9c3b47
   React-nativeconfig: 67fa7a63ea288cb5b1d0dd2deaf240405fec164f
   React-NativeModulesApple: cbf1a34443e1f67b56344547f4b0af69e1c685ba
@@ -2279,8 +2239,8 @@ SPEC CHECKSUMS:
   SDWebImageAVIFCoder: 00310d246aab3232ce77f1d8f0076f8c4b021d90
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  Yoga: 88e46d0f2096eb9762a82c2c45ab23b0880de97d
+  Yoga: 90d80701b27946c4b23461c00a7207f300a6ff71
 
-PODFILE CHECKSUM: 9689fc68769a9a788ed6d5edb3ed46e5092be95a
+PODFILE CHECKSUM: 50129c54e232dccc3887381802e7b68c80d81c32
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.16.2
