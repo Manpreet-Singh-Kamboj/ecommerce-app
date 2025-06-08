@@ -101,7 +101,8 @@ export default function ManualLocationRequestScreen() {
         <LocationHeader />
       </LinearGradient>
       <MapView
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE}
+        userInterfaceStyle="dark"
         ref={mapRef}
         style={styles.map}
         customMapStyle={MAP_STYLE}

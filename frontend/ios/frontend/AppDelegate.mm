@@ -12,9 +12,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-// @generated begin react-native-maps-init - expo prebuild (DO NOT MODIFY) sync-ae5f4b6f9c6047281ab0b49f1130e1a21b7d59f4
+// @generated begin react-native-maps-init - expo prebuild (DO NOT MODIFY) sync-8ba66425097f659e76a34d3a709b69ecbd1629e0
 #if __has_include(<GoogleMaps/GoogleMaps.h>)
-  [GMSServices provideAPIKey:@"AIzaSyCRCUqYD3pRIGV6z2XdcDo37GtupF5oEKA"];
+  [GMSServices provideAPIKey:@"AIzaSyA1ni3LIX-GYv5TitJl1zm6qPVDjjupm5g"];
 #endif
 // @generated end react-native-maps-init
   self.moduleName = @"main";

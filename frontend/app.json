@@ -17,8 +17,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.manpreet3033.frontend",
       "config": {
-        "googleMapsApiKey": "AIzaSyCRCUqYD3pRIGV6z2XdcDo37GtupF5oEKA"
-      }
+        "googleMapsApiKey": "AIzaSyA1ni3LIX-GYv5TitJl1zm6qPVDjjupm5g"
+      },
+      "appleTeamId": "CN9QNQMSZN"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +31,11 @@
         "googleMaps": {
           "apiKey": "AIzaSyDhdAVdLP5-9RgECmThTJ8FF98CbPGgn2Q"
         }
-      }
+      },
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
