@@ -62,7 +62,11 @@ const RootLayout = () => {
           />
           <Stack.Screen
             name="(root)/home"
-            options={{ headerShown: false, animation: "flip" }}
+            options={{ headerShown: false, animation: "none" }}
+          />
+          <Stack.Screen
+            name="(onboarding)/welcome/index"
+            options={{ headerShown: false, animation: "none" }}
           />
         </Stack>
         <Toast
