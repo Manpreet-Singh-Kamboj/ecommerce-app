@@ -20,6 +20,7 @@ import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import { Entypo } from "@expo/vector-icons";
 import { router } from "expo-router";
 import MAP_STYLE from "@/constants/map-style.json";
+import { StatusBar } from "expo-status-bar";
 
 export default function ManualLocationRequestScreen() {
   const { location, setLocation } = useContext(LocationContext);
@@ -88,6 +89,7 @@ export default function ManualLocationRequestScreen() {
   }
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <LinearGradient
         colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0.25)", "transparent"]}
         style={[
