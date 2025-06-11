@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import Button from "@/components/Button";
 import { Colors } from "@/constants/colors";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import { logout } from "@/services/auth";
 
 type Props = {};

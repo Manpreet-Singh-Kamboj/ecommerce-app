@@ -1,8 +1,8 @@
 import { RootState } from "@/redux/store";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "@/redux/store/hooks";
 
 export default function useAuth() {
-  const { token, signupData, loading, forgotPasswordData } = useSelector(
+  const { token, signupData, loading, forgotPasswordData } = useAppSelector(
     (state: RootState) => state.auth
   );
   return {

@@ -17,7 +17,7 @@ import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import { StatusBar } from "expo-status-bar";
 import { signIn } from "@/services/auth";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import useAuth from "@/hooks/useAuth";
 import ErrorToast from "@/components/Toasts/error-toast";
 
