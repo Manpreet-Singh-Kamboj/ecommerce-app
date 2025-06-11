@@ -14,7 +14,7 @@ import { Colors } from "@/constants/colors";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import OtpInput from "@/components/OtpInput";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import ErrorToast from "@/components/Toasts/error-toast";
 import {
   forgotPassword,

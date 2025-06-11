@@ -16,7 +16,7 @@ import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
 import ErrorToast from "@/components/Toasts/error-toast";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import { setSignupData } from "@/redux/slices/auth.slice";
 import { sendVerificationOtp } from "@/services/auth";
 import useAuth from "@/hooks/useAuth";

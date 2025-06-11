@@ -9,7 +9,7 @@ import SafeAreaWrapper from "@/components/SafeAreaWrapper";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Colors } from "@/constants/colors";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import useAuth from "@/hooks/useAuth";
 import { router } from "expo-router";
 import ErrorToast from "@/components/Toasts/error-toast";

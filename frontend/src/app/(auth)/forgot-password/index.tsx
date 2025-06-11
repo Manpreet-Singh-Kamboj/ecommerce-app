@@ -13,7 +13,7 @@ import FloatingBackButton from "@/components/FloatingBackButton";
 import { router } from "expo-router";
 import PageHeading from "@/components/PageHeading";
 import PageDescription from "@/components/PageDescription";
-import useAppDispatch from "@/hooks/useAppDispatch";
+import { useAppDispatch } from "@/redux/store/hooks";
 import { sendVerificationOtp } from "@/services/auth";
 import { setForgotPasswordData } from "@/redux/slices/auth.slice";
 import ErrorToast from "@/components/Toasts/error-toast";
