@@ -6,11 +6,12 @@ import { authEndpoints } from "@/services/apis";
 import { getAccessToken } from "@/utils/storage";
 import { Redirect } from "expo-router";
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/redux/store/hooks";
+import * as Linking from "expo-linking";
 
 const RootPage = () => {
-  const { token, loading } = useAuth();
-  const dispatch = useDispatch();
+  const { loading } = useAuth();
+  const dispatch = useAppDispatch();
   const [isAuth, setIsAuth] = React.useState(false);
 
   useEffect(() => {
