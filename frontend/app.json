@@ -24,7 +24,19 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#ffffff",
+        "intentFilters": [
+          {
+            "action": "VIEW",
+            "data": [
+              {
+                "scheme": "ecommerce-app",
+                "host": "redirect"
+              }
+            ],
+            "category": ["BROWSABLE", "DEFAULT"]
+          }
+        ]
       },
       "package": "com.manpreet3033.frontend",
       "config": {
