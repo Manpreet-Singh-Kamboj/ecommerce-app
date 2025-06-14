@@ -52,6 +52,8 @@ PODS:
     - Yoga
   - ExpoSecureStore (14.0.1):
     - ExpoModulesCore
+  - ExpoWebBrowser (14.0.2):
+    - ExpoModulesCore
   - FBLazyVector (0.76.7)
   - fmt (9.1.0)
   - glog (0.3.5)
@@ -1303,9 +1305,9 @@ PODS:
     - Yoga
   - react-native-get-random-values (1.11.0):
     - React-Core
-  - react-native-maps (1.24.1):
-    - react-native-maps/Maps (= 1.24.1)
-  - react-native-maps/Generated (1.24.1):
+  - react-native-maps (1.24.3):
+    - react-native-maps/Maps (= 1.24.3)
+  - react-native-maps/Generated (1.24.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1326,7 +1328,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-maps/Maps (1.24.1):
+  - react-native-maps/Maps (1.24.3):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1904,6 +1906,7 @@ DEPENDENCIES:
   - ExpoLocation (from `../node_modules/expo-location/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSecureStore (from `../node_modules/expo-secure-store/ios`)
+  - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -2017,6 +2020,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core"
   ExpoSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
+  ExpoWebBrowser:
+    :path: "../node_modules/expo-web-browser/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   fmt:
@@ -2171,6 +2176,7 @@ SPEC CHECKSUMS:
   ExpoLocation: ad29273f84077363296657176ea39c3545521720
   ExpoModulesCore: 0bcea8c26791a8f0aed1d4a961f1165e1fc657d4
   ExpoSecureStore: d006eea5e316283099d46f80a6b10055b89a6008
+  ExpoWebBrowser: 6890a769e6c9d83da938dceb9a03e764afc3ec9c
   FBLazyVector: ca8044c9df513671c85167838b4188791b6f37e1
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
@@ -2208,7 +2214,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 23ffe602d0f5ca53b861ef8534cb8c63c4479671
   React-microtasksnativemodule: 73fdf0c53b6d50d55de2d5bd9abfb8c006b043a4
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
-  react-native-maps: dd4566edd6079c1b49b92280b7b2fa06a412d062
+  react-native-maps: c06faf992afb682cd7a67ba272652e8365a4755e
   react-native-safe-area-context: 458f6b948437afcb59198016b26bbd02ff9c3b47
   React-nativeconfig: 67fa7a63ea288cb5b1d0dd2deaf240405fec164f
   React-NativeModulesApple: cbf1a34443e1f67b56344547f4b0af69e1c685ba

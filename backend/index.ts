@@ -26,6 +26,7 @@ const setupServer = () => {
       scope: ["profile", "email"],
       state,
       session: false,
+      prompt: "select_account",
     })(req, res, next);
   });
 
@@ -50,7 +51,6 @@ const setupServer = () => {
           const errorUrl = `${redirectUri}?error=access_denied`;
           return res.redirect(errorUrl);
         }
-        console.log(user);
         const accessTokenPayload = {
           userId: user._id,
           email: user.email,

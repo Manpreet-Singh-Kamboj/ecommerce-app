@@ -1,18 +1,41 @@
 import ErrorToast from "@/components/Toasts/error-toast";
 import useAuth from "@/hooks/useAuth";
-import { setLoading, setToken } from "@/redux/slices/auth.slice";
+import {
+  setIsAuthenticated,
+  setLoading,
+  setToken,
+} from "@/redux/slices/auth.slice";
 import { apiConnector } from "@/services/api-connector";
 import { authEndpoints } from "@/services/apis";
-import { getAccessToken } from "@/utils/storage";
+import {
+  getAccessToken,
+  storeAccessToken,
+  storeRefreshToken,
+} from "@/utils/storage";
 import { Redirect } from "expo-router";
 import React, { useEffect } from "react";
 import { useAppDispatch } from "@/redux/store/hooks";
 import * as Linking from "expo-linking";
 
 const RootPage = () => {
-  const { loading } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
   const dispatch = useAppDispatch();
-  const [isAuth, setIsAuth] = React.useState(false);
+  useEffect(() => {
+    const handleDeeplinks = (event: Linking.EventType) => {
+      const { url } = event;
+      const { queryParams }: { queryParams: any } = Linking.parse(url);
+      const { accessToken, refreshToken } = queryParams;
+      if (accessToken && refreshToken) {
+        storeAccessToken(accessToken);
+        storeRefreshToken(refreshToken);
+        dispatch(setIsAuthenticated(true));
+      }
+    };
+    const subscription = Linking.addEventListener("url", handleDeeplinks);
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -28,7 +51,7 @@ const RootPage = () => {
             accessToken,
           },
         });
-        setIsAuth(data.success);
+        dispatch(setIsAuthenticated(data.success));
         if (data.success) {
           dispatch(setToken(accessToken));
         }
@@ -51,7 +74,7 @@ const RootPage = () => {
 
   if (loading) return null;
 
-  return isAuth ? (
+  return isAuthenticated ? (
     <Redirect href="(root)/home" />
   ) : (
     <Redirect href="(onboarding)/welcome" />

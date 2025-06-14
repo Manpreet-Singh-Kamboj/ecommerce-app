@@ -5019,10 +5019,10 @@ react-native-is-edge-to-edge@^1.1.6:
   resolved "https://registry.npmjs.org/react-native-is-edge-to-edge/-/react-native-is-edge-to-edge-1.1.6.tgz"
   integrity sha512-1pHnFTlBahins6UAajXUqeCOHew9l9C2C8tErnpGC3IyLJzvxD+TpYAixnCbrVS52f7+NvMttbiSI290XfwN0w==
 
-react-native-maps@^1.22.6:
-  version "1.22.6"
-  resolved "https://registry.npmjs.org/react-native-maps/-/react-native-maps-1.22.6.tgz"
-  integrity sha512-4aYR+wvxFpYAisSHUtUACt7pVmemdZb/06WUfCjltS1Ag6056EmWxgQd9zwujGpEZf+3j1/O/sWgGAPk6xXy2Q==
+react-native-maps@^1.24.3:
+  version "1.24.3"
+  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.24.3.tgz#05ab0ddedd03c8f63dd52141fe7f0583b1a5cb2e"
+  integrity sha512-cF5oTA8z24QqGIRFfDcsXLEs/gCd0RhaJ9KPv/2HiogKD5gpjh1naimZUJQ6IsEcUngSSk8iov6p2jd7dB+/bQ==
   dependencies:
     "@types/geojson" "^7946.0.13"
 
