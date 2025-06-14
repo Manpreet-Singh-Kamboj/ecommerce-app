@@ -6,6 +6,7 @@ type AuthState = {
   forgotPasswordData: any;
   loading: boolean;
   token: string | null;
+  isAuthenticated: boolean;
 };
 
 const initialState: AuthState = {
@@ -13,6 +14,7 @@ const initialState: AuthState = {
   forgotPasswordData: null,
   loading: false,
   token: getAccessToken() ? getAccessToken() : null,
+  isAuthenticated: false,
 };
 
 const authSlice = createSlice({
@@ -31,9 +33,17 @@ const authSlice = createSlice({
     setToken: (state, action) => {
       state.token = action.payload;
     },
+    setIsAuthenticated: (state, action) => {
+      state.isAuthenticated = action.payload;
+    },
   },
 });
 
-export const { setSignupData, setForgotPasswordData, setLoading, setToken } =
-  authSlice.actions;
+export const {
+  setSignupData,
+  setForgotPasswordData,
+  setLoading,
+  setToken,
+  setIsAuthenticated,
+} = authSlice.actions;
 export default authSlice.reducer;

@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Alert,
   Pressable,
   StyleSheet,
   Text,
@@ -20,6 +21,11 @@ import { signIn } from "@/services/auth";
 import { useAppDispatch } from "@/redux/store/hooks";
 import useAuth from "@/hooks/useAuth";
 import ErrorToast from "@/components/Toasts/error-toast";
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
+import { authEndpoints } from "@/services/apis";
+import { storeAccessToken, storeRefreshToken } from "@/utils/storage";
+import { setIsAuthenticated, setToken } from "@/redux/slices/auth.slice";
 
 const SignInPage = () => {
   const [formData, setFormData] = React.useState({
@@ -45,6 +51,31 @@ const SignInPage = () => {
     dispatch(
       signIn({ email: formData.email, password: formData.password, router })
     );
+  };
+
+  const handleGoogleSignIn = async () => {
+    const redirectUri = Linking.createURL("redirect");
+    const { GOOGLE_SIGN_IN } = authEndpoints;
+    const authUrl = `${GOOGLE_SIGN_IN}?redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+    const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
+    if (result.type === "success" && result.url) {
+      const { queryParams }: { queryParams: any } = Linking.parse(result.url);
+      const { access_token, refresh_token } = queryParams;
+      if (access_token && refresh_token) {
+        storeAccessToken(access_token);
+        storeRefreshToken(refresh_token);
+        dispatch(setToken(access_token));
+        dispatch(setIsAuthenticated(true));
+        router.dismissAll();
+        router.replace("(root)/home");
+      }
+    } else if (result.type === "cancel") {
+      return;
+    } else {
+      Alert.alert("Something went wrong!!", "Please try again.");
+    }
   };
 
   return (
@@ -106,7 +137,7 @@ const SignInPage = () => {
         />
         <Button
           text="Sign In With Google"
-          onPress={() => {}}
+          onPress={handleGoogleSignIn}
           Icon={GoogleIcon}
           customStyle={{
             marginHorizontal: 25,
