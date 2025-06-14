@@ -14,7 +14,6 @@ const setupServer = () => {
   app.use("/api/auth", authRouter);
   app.get("/api/auth/google", (req, res, next) => {
     const redirectUri = req.query.redirect_uri as string;
-    console.log(redirectUri);
     if (!redirectUri) {
       res.status(400).json({
         success: false,
@@ -40,7 +39,6 @@ const setupServer = () => {
       });
       return;
     }
-    console.log(redirectUri);
     passport.authenticate(
       "google",
       { session: false },
