@@ -62,8 +62,13 @@ const SignInPage = () => {
     const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
     if (result.type === "success" && result.url) {
       const { queryParams }: { queryParams: any } = Linking.parse(result.url);
-      const { access_token, refresh_token } = queryParams;
-      if (access_token && refresh_token) {
+      const { access_token, refresh_token, error } = queryParams;
+      if (error === "access_denied") {
+        if (router.canGoBack()) {
+          router.back();
+        }
+        return;
+      } else if (access_token && refresh_token) {
         storeAccessToken(access_token);
         storeRefreshToken(refresh_token);
         dispatch(setToken(access_token));
