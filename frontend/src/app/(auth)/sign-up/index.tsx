@@ -18,7 +18,7 @@ import PageDescription from "@/components/PageDescription";
 import ErrorToast from "@/components/Toasts/error-toast";
 import { useAppDispatch } from "@/redux/store/hooks";
 import { setSignupData } from "@/redux/slices/auth.slice";
-import { sendVerificationOtp } from "@/services/auth";
+import { googleSignIn, sendVerificationOtp } from "@/services/auth";
 import useAuth from "@/hooks/useAuth";
 
 const SignUpPage = () => {
@@ -54,6 +54,10 @@ const SignUpPage = () => {
     dispatch(
       sendVerificationOtp({ email: formData.email, type: "sign_up", router })
     );
+  };
+
+  const handleGoogleSignUp = () => {
+    dispatch(googleSignIn());
   };
 
   const { width } = useWindowDimensions();
@@ -109,7 +113,7 @@ const SignUpPage = () => {
         />
         <Button
           text="Sign Up With Google"
-          onPress={() => {}}
+          onPress={handleGoogleSignUp}
           Icon={GoogleIcon}
           customStyle={{
             marginHorizontal: 25,

@@ -1,5 +1,6 @@
 import {
   setForgotPasswordData,
+  setIsAuthenticated,
   setLoading,
   setToken,
 } from "@/redux/slices/auth.slice";
@@ -17,6 +18,10 @@ import axios from "axios";
 import { AppDispatch } from "@/redux/store";
 import SuccessToast from "@/components/Toasts/success-toast";
 import ErrorToast from "@/components/Toasts/error-toast";
+import { Alert } from "react-native";
+import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
+
 const {
   SIGN_IN,
   SIGN_UP,
@@ -281,5 +286,37 @@ export function forgotPassword({
       }
     }
     dispatch(setLoading(false));
+  };
+}
+
+export function googleSignIn() {
+  return async (dispatch: AppDispatch) => {
+    const redirectUri = Linking.createURL("redirect");
+    const { GOOGLE_SIGN_IN } = authEndpoints;
+    const authUrl = `${GOOGLE_SIGN_IN}?redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}`;
+    const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
+    if (result.type === "success" && result.url) {
+      const { queryParams }: { queryParams: any } = Linking.parse(result.url);
+      const { access_token, refresh_token, error } = queryParams;
+      if (error === "access_denied") {
+        if (router.canGoBack()) {
+          router.back();
+        }
+        return;
+      } else if (access_token && refresh_token) {
+        storeAccessToken(access_token);
+        storeRefreshToken(refresh_token);
+        dispatch(setToken(access_token));
+        dispatch(setIsAuthenticated(true));
+        router.dismissAll();
+        router.replace("(root)/home");
+      }
+    } else if (result.type === "cancel") {
+      return;
+    } else {
+      Alert.alert("Something went wrong!!", "Please try again.");
+    }
   };
 }
