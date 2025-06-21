@@ -11,6 +11,7 @@ import Toast, {
   ToastConfig,
 } from "react-native-toast-message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Platform } from "react-native";
 
 const toastConfig: ToastConfig = {
   success: (props: BaseToastProps) => (
@@ -67,6 +68,13 @@ const RootLayout = () => {
           <Stack.Screen
             name="(onboarding)/welcome/index"
             options={{ headerShown: false, animation: "none" }}
+          />
+          <Stack.Screen
+            name="(root)/add-address/index"
+            options={{
+              presentation: Platform.OS === "ios" ? "modal" : "formSheet",
+              sheetAllowedDetents: [0.93],
+            }}
           />
         </Stack>
         <Toast
