@@ -301,9 +301,9 @@ export function googleSignIn() {
       const { queryParams }: { queryParams: any } = Linking.parse(result.url);
       const { access_token, refresh_token, error } = queryParams;
       if (error === "access_denied") {
-        if (router.canGoBack()) {
-          router.back();
-        }
+        // if (router.canGoBack()) {
+        // router.back();
+        // }
         return;
       } else if (access_token && refresh_token) {
         storeAccessToken(access_token);

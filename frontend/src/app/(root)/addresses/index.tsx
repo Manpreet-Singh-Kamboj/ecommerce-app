@@ -7,6 +7,7 @@ import { addresses } from "@/constants/addresses";
 import { Address } from "@/types";
 import AddressCard from "@/components/Addresses/AddressCard";
 import { Colors } from "@/constants/colors";
+import { StatusBar } from "expo-status-bar";
 
 const AddressesScreen = () => {
   return (
@@ -25,11 +26,14 @@ const AddressesScreen = () => {
                   router.back();
                 }
               }}
+              rightIcon={<Feather name="plus" size={24} color="black" />}
+              onRightIconPress={() => router.navigate("/add-address")}
             />
           ),
           headerShown: true,
         }}
       />
+      <StatusBar translucent style="dark" />
       <FlatList
         data={addresses}
         contentContainerStyle={styles.flatList}
